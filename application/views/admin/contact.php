@@ -23,14 +23,14 @@
                             <td><strong>Email : </strong></td>
                             <td><?php echo $row->email; ?></td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td><strong>Phone : </strong></td>
                             <td><?php echo $row->phone; ?></td>
                         </tr>
                         <tr>
                             <td><strong>Subject : </strong></td>
                             <td><?php echo $row->subject; ?></td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td><strong>Message : </strong></td>
                             <td><?php echo $row->msg; ?></td>
@@ -67,8 +67,8 @@
                     <th width="5%" class="text-center">Sr#</th>
                     <th width="" class="text-center">Name</th>
                     <th width="" class="text-center">Email</th>
-                    <th width="" class="text-center">Phone</th>
-                    <th width="" class="text-center">Subject</th>
+                    <!-- <th width="" class="text-center">Phone</th>
+                    <th width="" class="text-center">Subject</th> -->
                     <th width="" class="text-center">Message</th>
                     <th width="" class="text-center">Date</th>
                     <th width="" class="text-center">Status</th>
@@ -86,8 +86,8 @@
                             <td class="text-center"><?php echo ++$count; ?></td>
                             <td class="text-center"><?= $row->name ?></td>
                             <td class="text-center"><?= $row->email ?></td>
-                            <td class="text-center"><?= $row->phone ?></td>
-                            <td class="text-center"><?= $row->subject ?></td>
+                            <!-- <td class="text-center"><?= $row->phone ?></td>
+                            <td class="text-center"><?= $row->subject ?></td> -->
                             <td class="text-center"><?= substr($row->msg,0,70) ?>...</td>
                             <td class="text-center"><?php echo date("D, d M Y", $time); ?></td>
                             <td class="text-center"><?= get_contact_seen_status($row->status)?></td>

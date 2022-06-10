@@ -20,26 +20,13 @@ class Sitecontent extends Admin_Controller
             if(!is_array($content_row))
                 $content_row = array();
 
-            for($i = 1; $i <= 9; $i++) {
+            for($i = 1; $i <= 1; $i++) {
                 if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
                     
                     $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
-                    if($i>=1 && $i <= 3)
-                    {
-                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],1000,'thumb_');
-                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],800,'800p_');
-                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],1400,'1400p_');
-                    }
-                    elseif($i>=4 && $i <= 6)
-                    {
-                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],100,'thumb_');
-                    }
-                    else
-                    {
-                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],300,'thumb_');
-                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],500,'500p_');
-                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],800,'800p_');
-                    }
+                    generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],300,'thumb_');
+                    generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],500,'500p_');
+                    generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],800,'800p_');
                     if(!empty($image['file_name'])){
                         if(isset($content_row['image'.$i]))
                             $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
@@ -47,6 +34,28 @@ class Sitecontent extends Admin_Controller
                         $vals['image'.$i] = $image['file_name'];
                     }
                 }
+            }
+            
+
+            if (isset($_FILES["video"]["name"]) && $_FILES["video"]["name"] != "") {
+
+                    
+
+                $image = upload_file(UPLOAD_PATH.'images/', 'video', 'video');
+
+                generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],600,'thumb_');
+
+                if(!empty($image['file_name'])){
+
+                    if(isset($content_row['video']))
+                        $this->remove_file(UPLOAD_PATH."images/".$content_row['video']);
+                        $this->remove_file(UPLOAD_PATH."images/thumb_".$content_row['video']);
+
+
+                    $vals['video'] = $image['file_name'];
+
+                }
+
             }
 
             $data = serialize(array_merge($content_row, $vals));
@@ -72,28 +81,28 @@ class Sitecontent extends Admin_Controller
             if(!is_array($content_row))
                 $content_row = array();
 
-            for($i = 1; $i <= 2; $i++) {
+            for($i = 1; $i <= 5; $i++) {
                 if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
                     
                     $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
-                    if($i=== 1)
-                    {
-                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],1000,'thumb_');
-                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],800,'800p_');
-                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],2000,'2000p_');
-                    }
-                    else
+
+                    if($i === 1)
                     {
                         generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],300,'thumb_');
                         generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],500,'500p_');
                         generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],800,'800p_');
                     }
+
                     if(!empty($image['file_name'])){
-                        if(isset($content_row['image'.$i]))
-                            $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
-                            $this->remove_file(UPLOAD_PATH."images/thumb_".$content_row['image'.$i]);
-                            $this->remove_file(UPLOAD_PATH."images/400p_".$content_row['image'.$i]);
-                            $this->remove_file(UPLOAD_PATH."images/600p_".$content_row['image'.$i]);
+                        if(isset($content_row['image'.$i])){
+                            if($i === 1)
+                            {
+                                $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
+                                $this->remove_file(UPLOAD_PATH."images/thumb_".$content_row['image'.$i]);
+                                $this->remove_file(UPLOAD_PATH."images/500p_".$content_row['image'.$i]);
+                                $this->remove_file(UPLOAD_PATH."images/800p_".$content_row['image'.$i]);
+                            }
+                        }
                         $vals['image'.$i] = $image['file_name'];
                     }
                 }
