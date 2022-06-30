@@ -35,6 +35,14 @@
  			return $this->db->insert_id();
  		}
  	}
+	 function getJobCities()
+	 {
+		 $this->db->from('jobs');
+		 $this->db->where(['status'=> 1]);
+		 $this->db->select('city');
+		 $this->db->distinct();
+		 return $this->db->get()->result();
+	 }
  	function getPageContent($page_slug=""){
  		if($page_slug != ""){
  			$this->db->where("ckey",$page_slug);
@@ -103,6 +111,94 @@
 		// pr($this->db->last_query());
 
 	}
+
+	function fetch_jobs_data($post)
+	{
+		$this->db->select('*');
+		$this->db->from('jobs');
+
+		// if(isset($post['price']) && !empty(trim($post['price'])))
+		// {
+		//   $priceIndex = explode(';', $post['price']);
+		//   $this->db->where(['(price - discount) >='=> $priceIndex[0], '(price - discount) <='=> $priceIndex[1]]);
+		// }
+
+		if(isset($post['jobCats']) && !empty($post['jobCats']))
+		{
+			$this->db->group_start();
+			foreach($post['jobCats'] as $key => $value)
+			{
+				if($key == 0)
+					$this->db->where('job_cat', $value);
+				else
+					$this->db->or_where('job_cat', $value);
+			}
+			$this->db->group_end();
+		}
+
+		if(isset($post['cities']) && !empty($post['cities']))
+		{
+			$this->db->group_start();
+			foreach($post['cities'] as $key => $value)
+			{
+				$value = str_replace('"', '', $value);
+				if($key == 0)
+					$this->db->where('city', $value);
+				else
+					$this->db->or_where('city', $value);
+			}
+			$this->db->group_end();
+		}
+
+		if(isset($post['types']) && !empty($post['types']))
+		{
+			$this->db->group_start();
+			foreach($post['types'] as $key => $value)
+			{
+				$value = str_replace('"', '', $value);
+				if($key == 0)
+					$this->db->where('job_type', $value);
+				else
+					$this->db->or_where('job_type', $value);
+			}
+			$this->db->group_end();
+		}
+
+		if(isset($post['jobRequirements']) && !empty($post['jobRequirements']))
+		{
+			$this->db->group_start();
+			foreach($post['jobRequirements'] as $key => $value)
+			{
+				$value = str_replace('"', '', $value);
+				if($key == 0)
+					$this->db->where('degree_requirement', $value);
+				else
+					$this->db->or_where('degree_requirement', $value);
+			}
+			$this->db->group_end();
+		}
+
+		if($post['visaAcceptance'] == 'true')
+		{
+			$this->db->where('visa_acceptance', 'Yes');
+		}
+		
+
+		$this->db->where(['status'=> 1]);
+		if(!empty($post['sortBy']))
+		{
+			$this->db->order_by('id', $post['sortBy']);
+		}
+		else
+		{
+			$this->db->order_by('id', 'desc');
+		}
+
+		return $this->db->get()->result();
+		// pr($this->db->last_query());
+
+	}
+
  }
 
 

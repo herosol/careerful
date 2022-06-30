@@ -36,6 +36,18 @@
                             <span class="title">Home</span>
                         </a>
                     </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'signin') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/signin') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Sign In</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'signup') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/signup') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Sign Up</span>
+                        </a>
+                    </li>
                     <li class=" <?= ($this->uri->segment(3) == 'about_us') ? ' active' : '' ?>">
                         <a href="<?= site_url(ADMIN.'/sitecontent/about_us') ?>">
                             <i class="entypo-doc-text  "></i>
@@ -86,6 +98,32 @@
                     </li>
                 </ul>
             </li>
+            <li class=" <?= ($this->uri->segment(2) == 'jobs' || $this->uri->segment(2) == 'job_categories') ? ' opened  active' : '' ?>">
+                <a href="javascript:void(0)">
+                    <i class="entypo-doc-text"></i>
+                    <span class="title">Manage Jobs</span>
+                </a>
+                <ul>
+                    <li class=" <?= ($this->uri->segment(3) == 'job_categories') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/job_categories') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Job Industries</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'jobs') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/jobs') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Jobs</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="opened<?= $this->uri->segment('2') == 'universities' ? ' active' : '' ?>">
+                <a href="<?= site_url(ADMIN.'/universities') ?>">
+                    <i class="fa fa-users"></i>
+                    <span class="title">Manage Universities</span>
+                </a>
+            </li>
             <li class="opened<?= $this->uri->segment('2') == 'testimonials' ? ' active' : '' ?>">
                 <a href="<?= site_url(ADMIN.'/testimonials') ?>">
                     <i class="fa fa-users"></i>
@@ -102,6 +140,12 @@
                 <a href="<?= site_url(ADMIN.'/visasponsors') ?>">
                     <i class="fa fa-users"></i>
                     <span class="title">Manage Visa Sponsors</span>
+                </a>
+            </li>
+            <li class="opened<?= $this->uri->segment('2') == 'faq' ? ' active' : '' ?>">
+                <a href="<?= site_url(ADMIN.'/faq') ?>">
+                    <i class="fa fa-users"></i>
+                    <span class="title">Manage FAQs</span>
                 </a>
             </li>
             <li class="opened <?= ($this->uri->segment(2) == 'contact') ? 'active' : '' ?>">

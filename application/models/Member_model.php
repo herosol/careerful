@@ -31,139 +31,15 @@ class Member_model extends CRUD_Model
         return $query->result();
     }
 
-    function get_nearby_vendors($selections)
+    function getSavedJobs($mem_id)
     {
-        $search_radius = $this->data['site_settings']->site_radius > 0 ? $this->data['site_settings']->site_radius : '10'; 
-        $this->db->select('*, ( 3959 * acos( cos( radians("'.$selections['lat'].'") ) * cos( radians( mem_map_lat ) )
-        * cos( radians( mem_map_lng ) - radians("'.$selections['long'].'") ) + sin( radians("'.$selections['lat'].'") ) 
-        * sin( radians( mem_map_lat ) ) ) ) AS distance');
-        $this->db->from($this->table_name);
-        $this->db->where(['mem_type'=> 'vendor', 'mem_status'=> '1', 'mem_verified'=> '1']);
-        $this->db->having(['distance <=' => $search_radius, 'distance >=' => '0']);
-        $nearby_vendors = $this->db->get()->result();
-
-        $vendors = [];
-        $locations = [];
-        foreach($nearby_vendors as $key => $vendor):
-            #CHECK IF WALK-IN FACILITY AND SET FACILITY HOURS
-            $facilityCheck = $this->master->num_rows('mem_facility_hours', ['mem_id'=> $vendor->mem_id]);
-            if($vendor->mem_company_walkin_facility == 'yes' && $facilityCheck == 0)
-                continue;
-            
-            # CHECK IF VENDOR ALLOW SERVICE IN REQUIRED DISTANCE
-            if($vendor->mem_travel_radius >= $vendor->distance):
-                # CHECK IF USER PROVIDING ALL REQUIRED SERVICES
-                $service_check = vendor_service_check($vendor->mem_id, $selections['selected_service'], $selections['qty']);
-                if($service_check['return']):
-                    $vendor->estimated_price = $service_check['estimated_price'];
-                    $locations[] = [
-                        $vendor->mem_business_zip.' ('. round($vendor->distance, 2) . ' miles away)',
-                        $vendor->mem_map_lat,
-                        $vendor->mem_map_lng,
-                        '',
-                        $vendor->mem_fname.' '.$vendor->mem_lname.' '. round($vendor->distance, 2) . ' miles away'.' at '.$vendor->mem_business_address. ' ('. $vendor->mem_business_zip .')'
-                    ];
-                    $vendors[] = $vendor;    
-                endif;
-            endif;
-        endforeach;
-
-        #SORT CHEAPEST FIRST
-        usort($vendors, function($first,$second){
-            return $first->estimated_price > $second->estimated_price;
-        });
-
-        return ['vendors'=> $vendors, 'locations'=> json_encode($locations)]; //json_encode for map locations   
-    }
-
-    function get_nearby_vendors_advanced($selections, $params)
-    {
-        $this->db->from($this->table_name.' mem');
-        $this->db->select('mem.*, ( 3959 * acos( cos( radians("'.$selections['lat'].'") ) * cos( radians( mem.mem_map_lat ) )
-        * cos( radians( mem.mem_map_lng ) - radians("'.$selections['long'].'") ) + sin( radians("'.$selections['lat'].'") ) 
-        * sin( radians( mem.mem_map_lat ) ) ) ) AS distance');
-
-        # IF DISTANCE RANGES
-        if(isset($params['distance']))
-        {
-            $distanceIndexes = explode(';', $params['distance']);
-            $distanceStart = $distanceIndexes[0];
-            $distanceEnd   = $distanceIndexes[1];
-        }
-        else
-        {
-            $distanceStart = '0';
-            $distanceEnd   =  $this->data['site_settings']->site_radius > 0 ? $this->data['site_settings']->site_radius : '10'; 
-        }
-        # IF RATING
-        if(isset($params['star_rating']))
-        {
-            $avgRating = $params['star_rating'];
-            $this->db->join('reviews r', 'mem.mem_id = r.mem_id', 'LEFT');
-            $this->db->select('AVG(r.rating) as avgRating');
-            $this->db->group_by('r.mem_id');
-            $this->db->having(['avgRating >=' => $avgRating]);
-        }
-
-        $this->db->having(['distance <=' => $distanceEnd, 'distance >=' => $distanceStart]);        
-        $this->db->where(['mem.mem_type'=> 'vendor', 'mem.mem_status'=> '1', 'mem.mem_verified'=> '1']);
-
-        $nearby_vendors = $this->db->get()->result();
-
-        $vendors = [];
-        $locations = [];
-        foreach($nearby_vendors as $key => $vendor):
-            #CHECK IF WALK-IN FACILITY AND SET FACILITY HOURS
-            $facilityCheck = $this->master->num_rows('mem_facility_hours', ['mem_id'=> $vendor->mem_id]);
-            if($vendor->mem_company_walkin_facility == 'yes' && $facilityCheck == 0)
-                continue;
-            
-            # CHECK IF VENDOR ALLOW SERVICE IN REQUIRED DISTANCE
-            if($vendor->mem_travel_radius >= $vendor->distance):
-                # CHECK IF VENDOR PROVIDING ALL REQUIRED SERVICES
-                $service_check = vendor_service_check($vendor->mem_id, $selections['selected_service'], $selections['qty']);
-                if($service_check['return']):
-                    $vendor->estimated_price = $service_check['estimated_price'];
-                    # IF PRICE RANGES
-                    if(isset($params['price']))
-                    {
-                        $priceIndexes = explode(';', $params['price']);
-                        $priceStart = $priceIndexes[0];
-                        $priceEnd   = $priceIndexes[1];
-                        if($service_check['estimated_price'] >= $priceStart && $service_check['estimated_price'] <= $priceEnd)
-                        {
-                            $locations[] = [
-                                $vendor->mem_business_zip.' ('. round($vendor->distance, 2) . ' miles away)',
-                                $vendor->mem_map_lat,
-                                $vendor->mem_map_lng,
-                                '',
-                                $vendor->mem_fname.' '.$vendor->mem_lname.' '. round($vendor->distance, 2) . ' miles away'.' at '.$vendor->mem_business_address. ' ('. $vendor->mem_business_zip .')'
-                            ];
-                            $vendors[] = $vendor;
-                        }
-                    }
-                    else
-                    {
-                        $locations[] = [
-                            $vendor->mem_business_zip.' ('. round($vendor->distance, 2) . ' miles away)',
-                            $vendor->mem_map_lat,
-                            $vendor->mem_map_lng,
-                            '',
-                            $vendor->mem_fname.' '.$vendor->mem_lname.' '. round($vendor->distance, 2) . ' miles away'.' at '.$vendor->mem_business_address. ' ('. $vendor->mem_business_zip .')'
-                        ];
-                        $vendors[] = $vendor;
-                    }
-
-                endif;
-            endif;
-        endforeach;
-
-        #SORT CHEAPEST FIRST
-        usort($vendors, function($first,$second){
-            return $first->estimated_price > $second->estimated_price;
-        });
-
-        return ['vendors'=> $vendors, 'locations'=> $locations];
+        $this->db->select('j.*, sj.id as saved_id, sj.online_test, sj.interview, sj.second_round_interview, sj.final_round_interview, sj.offer');
+        $this->db->from('jobs j');
+        $this->db->join('saved_jobs sj', 'j.id=sj.job_id');
+        $this->db->where(['sj.mem_id'=> $mem_id, 'j.status'=> '1']);
+        $this->db->order_by('j.id', 'desc');
+        $this->db->group_by('j.id');
+        return $this->db->get()->result();
     }
 
     function clear_notifs()

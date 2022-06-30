@@ -27,7 +27,13 @@ function check_valid_id($table, $id, $field)
         show_404();
     }
 }
-
+function get_job_cat($id)
+{
+    global $CI;
+    $CI = get_instance();
+    $row = $CI->master->getRow('job_categories', array('id' => $id));
+    return ($row->title);
+}
 function countries()
 {
     global $CI;
