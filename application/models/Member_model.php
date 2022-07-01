@@ -94,6 +94,13 @@ class Member_model extends CRUD_Model
         $query = $this->db->get($this->table_name);
         return $query->row();
     }
+    function getMembersInterviews()
+    {
+        $this->db->where(['mem_id <>'=> null]);
+        $query = $this->db->get('video_interview');
+        return $query->result();
+    }
+
 
     function search_members($post)
     {

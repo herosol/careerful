@@ -205,67 +205,87 @@ class Pages extends MY_Controller
 
     function jobs()
     {
-        $meta = $this->page->getMetaContent('jobs');
-        $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
-        $this->data['slug'] = $meta->slug;
-        $data = $this->page->getPageContent('jobs');
-        if ($data) 
+        if($this->input->post())
         {
-            $this->data['content'] = unserialize($data->code);
-            $this->data['details'] = ($data->full_code);
-            $this->data['meta_desc'] = json_decode($meta->content);
-            $cats     = $this->master->getRows('job_categories', ['status'=> 1], '', '', 'asc', 'id');
-            $this->data['cats'] = [];
-            foreach($cats as $index => $cat):
-                $num = $this->master->num_rows('jobs', ['job_cat'=> $cat->id]);
-                if($num > 0)
-                {
-                    $cat->count = $num; 
-                    $this->data['cats'][] = $cat;
-                }
-            endforeach;
+            $post = $this->input->post();
+            $token = explode('_', doDecode($post['authToken']));
+            $mem_id = $token[1];
+            $meta = $this->page->getMetaContent('jobs');
+            $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+            $this->data['slug'] = $meta->slug;
+            $data = $this->page->getPageContent('jobs');
+            if ($data) 
+            {
+                $this->data['content'] = unserialize($data->code);
+                $this->data['details'] = ($data->full_code);
+                $this->data['meta_desc'] = json_decode($meta->content);
+                $cats     = $this->master->getRows('job_categories', ['status'=> 1], '', '', 'asc', 'id');
+                $this->data['cats'] = [];
+                foreach($cats as $index => $cat):
+                    $num = $this->master->num_rows('jobs', ['job_cat'=> $cat->id]);
+                    if($num > 0)
+                    {
+                        $cat->count = $num; 
+                        $this->data['cats'][] = $cat;
+                    }
+                endforeach;
+    
+                $types = ['Graduate Jobs', 'Interships', 'Placements', 'Insight Programmes'];
+                $this->data['types'] = [];
+                foreach($types as $index => $type):
+                    $num = $this->master->num_rows('jobs', ['job_type'=> trim($type)]);
+                    if($num > 0)
+                    {
+                        $t = new stdClass();
+                        $t->type  = $type;
+                        $t->count = $num;
+                        $this->data['types'][] = $t;
+                    }
+                endforeach;
+    
+                $degree_req = ['Collage Degree', 'University Degree', 'Graduate Diploma', 'Not Specified', 'No Minimum Requirement'];
+                $this->data['degree_req'] = [];
+                foreach($degree_req as $index => $requirement):
+                    $num = $this->master->num_rows('jobs', ['degree_requirement'=> trim($requirement)]);
+                    if($num > 0)
+                    {
+                        $t = new stdClass();
+                        $t->type  = $requirement;
+                        $t->count = $num;
+                        $this->data['degree_req'][] = $t;
+                    }
+                endforeach;
+    
+                $cities = $this->page->getJobCities();
+                $this->data['cities'] = [];
+                foreach($cities as $index => $city):
+                    $num = $this->master->num_rows('jobs', ['city'=> $city->city]);
+                    if($num > 0)
+                    {
+                        $city->count = $num; 
+                        $this->data['cities'][] = $city;
+                    }
+                endforeach;
+    
+                $this->data['jobs'] =  [];
+                $jobs = $this->master->getRows('jobs', ['status'=> 1], '', '', 'desc', 'id');
+                foreach($jobs as $index => $j):
+                    $num = $this->master->num_rows('saved_jobs', ['mem_id'=> $mem_id, 'job_id'=> $j->id]);
+                    $j->saved = false;
+                    if($num > 0)
+                        $j->saved = true;
 
-            $types = ['Graduate Jobs', 'Interships', 'Placements', 'Insight Programmes'];
-            $this->data['types'] = [];
-            foreach($types as $index => $type):
-                $num = $this->master->num_rows('jobs', ['job_type'=> trim($type)]);
-                if($num > 0)
-                {
-                    $t = new stdClass();
-                    $t->type  = $type;
-                    $t->count = $num;
-                    $this->data['types'][] = $t;
-                }
-            endforeach;
-
-            $degree_req = ['Collage Degree', 'University Degree', 'Graduate Diploma', 'Not Specified', 'No Minimum Requirement'];
-            $this->data['degree_req'] = [];
-            foreach($degree_req as $index => $requirement):
-                $num = $this->master->num_rows('jobs', ['degree_requirement'=> trim($requirement)]);
-                if($num > 0)
-                {
-                    $t = new stdClass();
-                    $t->type  = $requirement;
-                    $t->count = $num;
-                    $this->data['degree_req'][] = $t;
-                }
-            endforeach;
-
-            $cities = $this->page->getJobCities();
-            $this->data['cities'] = [];
-            foreach($cities as $index => $city):
-                $num = $this->master->num_rows('jobs', ['city'=> $city->city]);
-                if($num > 0)
-                {
-                    $city->count = $num; 
-                    $this->data['cities'][] = $city;
-                }
-            endforeach;
-
-            $this->data['jobs'] = $this->master->getRows('jobs', ['status'=> 1], '', '', 'desc', 'id');
-            http_response_code(200);
-            echo json_encode($this->data);
-        } 
+                    $this->data['jobs'][] = $j;
+                endforeach;
+                
+                http_response_code(200);
+                echo json_encode($this->data);
+            } 
+            else
+            {
+                http_response_code(404);
+            }
+        }
         else
         {
             http_response_code(404);
@@ -281,7 +301,8 @@ class Pages extends MY_Controller
             $res['status'] = 0;
             $post = $this->input->post();
             $videoRecord = [];
-
+            $token = explode('_', doDecode($post['authToken']));
+            $mem_id = $token[1];
             if (isset($_FILES["video"]["name"]) && $_FILES["video"]["name"] != "") {
                 $video = upload_file(UPLOAD_PATH.'interview_videos/', 'video', 'video');
                 // generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$video['file_name'],600,'thumb_');
@@ -291,22 +312,23 @@ class Pages extends MY_Controller
                     //     $this->remove_file(UPLOAD_PATH."images/thumb_".$content_row['video']);
                     if($post['questionNo'] == '0')
                     {
-                        $$videoRecord['setup_video'] = $video['file_name'];
+                        $videoRecord['setup_video'] = $video['file_name'];
                     }
                     else
                     {
-                        $$videoRecord['question_'.$post['questionNo']] = $video['file_name'];
+                        $videoRecord['question_'.$post['questionNo']] = $video['file_name'];
                     }
                 }
             }
 
             if(isset($post['interview_session_id']) && !empty($post['interview_session_id']))
             {
-                $this->master->save('video_interview', $$videoRecord, 'id', $post['interview_session_id']);
+                $this->master->save('video_interview', $videoRecord, 'id', $post['interview_session_id']);
             }
             else
             {
-                $interview_session_id = $this->master->save('video_interview', $$videoRecord);
+                $videoRecord['mem_id'] = $mem_id;
+                $interview_session_id = $this->master->save('video_interview', $videoRecord);
                 $res['interview_session_id'] = $interview_session_id;
             }
 
@@ -350,6 +372,7 @@ class Pages extends MY_Controller
         }
     }
 
+
     function fetch_jobs_data()
     {
         if($this->input->post())
@@ -357,8 +380,20 @@ class Pages extends MY_Controller
             $res = [];
             $res['status'] = 0;
             $post = $this->input->post();
-            // pr($post);
-            $res['jobs'] = $this->page->fetch_jobs_data($post);
+            $token = explode('_', doDecode($post['authToken']));
+            $mem_id = $token[1];
+
+            $jobs = $this->page->fetch_jobs_data($post);
+            $res['jobs'] =  [];
+            foreach($jobs as $index => $j):
+                $num = $this->master->num_rows('saved_jobs', ['mem_id'=> $mem_id, 'job_id'=> $j->id]);
+                $j->saved = false;
+                if($num > 0)
+                    $j->saved = true;
+
+                $res['jobs'][] = $j;
+            endforeach;
+            
             $res['status'] = 1;
             echo json_encode($res);
             exit;

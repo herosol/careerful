@@ -67,6 +67,7 @@ function get_servicename($s_id)
     $row = $CI->master->getRow('services', array('id' => $s_id));
     return ($row->name);
 }
+
 function get_product_cat_name($id)
 {
     global $CI;
@@ -413,6 +414,13 @@ function get_mem_name($mem_id)
     $CI = get_instance();
     $row = $CI->master->getRow('members', array('mem_id' => $mem_id));
     return ucwords($row->mem_fname . ' ' . $row->mem_lname);
+}
+function fet_mem_email($mem_id)
+{
+    global $CI;
+    $CI = get_instance();
+    $row = $CI->master->getRow('members', array('mem_id' => $mem_id));
+    return $row->mem_email;
 }
 function get_mem_email($mem_id)
 {

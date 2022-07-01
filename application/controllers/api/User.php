@@ -144,4 +144,36 @@ class User extends MY_Controller
         }
     }
 
+    function change_password()
+    {
+        if ($this->input->post()) {
+            $res = [];
+            $res['status'] = 0;
+            $res['validationErrors'] = '';
+
+            $this->form_validation->set_rules('pass', 'Current Password', 'required');
+            $this->form_validation->set_rules('new_pass', 'New Password', 'required');
+            $this->form_validation->set_rules('confirm_pass', 'Confirm Password', 'required|matches[new_pass]');
+
+            if ($this->form_validation->run() === FALSE) {
+                $res['validationErrors'] = validation_errors();
+            } else {
+                $post = html_escape($this->input->post());
+                $token = explode('_', doDecode($post['authToken']));
+                $mem_id = $token[1];
+                $row = $this->member->oldPswdCheck($mem_id, $post['pass']);
+                if (count($row) > 0) {
+                    $ary = array('mem_pswd' => doEncode($post['new_pass']));
+                    $this->member->save($ary, $mem_id);
+
+                    $res['status'] = 1;
+                } else {
+                    $res['status'] = 0;
+                    $res['validationErrors'] = '<p>Old Password Does Not Match.</p>';
+                }
+            }
+            exit(json_encode($res));
+        }
+    }
+
 }

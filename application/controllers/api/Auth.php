@@ -117,6 +117,7 @@ class Auth extends MY_Controller
             {
                 $data = $this->input->post();
                 $row = $this->member->authenticate($data['email'], $data['password']);
+
                 if (count($row) > 0) {
                     // if ($row->mem_status == 0) {
                     //     $res['msg'] = showMsg('error', 'Your account has been blocked!');
@@ -130,7 +131,8 @@ class Auth extends MY_Controller
                     $res['authToken'] = doEncode('auth_'. $row->mem_id);
                     $res['status'] = 1;
                 } else {
-                    $res['msg'] = 'Worng email or password.';
+                    $res['status'] = 0;
+                    $res['validationErrors'] = '<p>Worng email or password.</p>';
                 }
             }
             echo json_encode($res);

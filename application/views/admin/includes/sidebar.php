@@ -118,10 +118,22 @@
                     </li>
                 </ul>
             </li>
+            <li class="opened<?= $this->uri->segment('2') == 'members' ? ' active' : '' ?>">
+                <a href="<?= site_url(ADMIN.'/members') ?>">
+                    <i class="fa fa-users"></i>
+                    <span class="title">Manage Members</span>
+                </a>
+            </li>
             <li class="opened<?= $this->uri->segment('2') == 'universities' ? ' active' : '' ?>">
                 <a href="<?= site_url(ADMIN.'/universities') ?>">
                     <i class="fa fa-users"></i>
                     <span class="title">Manage Universities</span>
+                </a>
+            </li>
+            <li class="opened<?= $this->uri->segment('2') == 'videointerviews' ? ' active' : '' ?>">
+                <a href="<?= site_url(ADMIN.'/videointerviews') ?>">
+                    <i class="fa fa-users"></i>
+                    <span class="title">Manage Video Interviews</span>
                 </a>
             </li>
             <li class="opened<?= $this->uri->segment('2') == 'testimonials' ? ' active' : '' ?>">
