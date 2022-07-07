@@ -178,6 +178,16 @@
 			$this->db->group_end();
 		}
 
+		if(isset($post['searchKeyword']) && !empty($post['searchKeyword']) && $post['searchKeyword'] != 'null')
+		{
+			$keyword = trim($post['searchKeyword']);
+			$this->db->group_start();
+			$this->db->like('title', $keyword);
+			$this->db->or_like('company_name', $keyword);
+			$this->db->or_like('city', $keyword);
+			$this->db->group_end();
+		}
+
 		if($post['visaAcceptance'] == 'true')
 		{
 			$this->db->where('visa_acceptance', 'Yes');

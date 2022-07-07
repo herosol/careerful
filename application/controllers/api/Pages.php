@@ -172,6 +172,51 @@ class Pages extends MY_Controller
             $this->data['details'] = ($data->full_code);
             $this->data['meta_desc'] = json_decode($meta->content);
             $this->data['faqs'] = $this->master->getRows('faqs', ['status'=> 1], '', '', 'acs', 'sort_order');
+            $this->data['companies'] = $this->master->getRows('partner_companies', ['status'=> 1, 'page'=> 'work_with_us'], '', '', 'desc', 'id');
+            http_response_code(200);
+            echo json_encode($this->data);
+        } 
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
+    function partner_with_us()
+    {
+        $meta = $this->page->getMetaContent('partner_with_us');
+        $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+        $this->data['slug'] = $meta->slug;
+        $data = $this->page->getPageContent('partner_with_us');
+        if ($data) 
+        {
+            $this->data['content'] = unserialize($data->code);
+            $this->data['details'] = ($data->full_code);
+            $this->data['meta_desc'] = json_decode($meta->content);
+            $this->data['faqs'] = $this->master->getRows('faqs', ['status'=> 1], '', '', 'acs', 'sort_order');
+            $this->data['companies'] = $this->master->getRows('partner_companies', ['status'=> 1, 'page'=> 'partner_with_us'], '', '', 'desc', 'id');
+            http_response_code(200);
+            echo json_encode($this->data);
+        } 
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
+    function careers()
+    {
+        $meta = $this->page->getMetaContent('careers');
+        $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+        $this->data['slug'] = $meta->slug;
+        $data = $this->page->getPageContent('careers');
+        if ($data) 
+        {
+            $this->data['content'] = unserialize($data->code);
+            $this->data['details'] = ($data->full_code);
+            $this->data['meta_desc'] = json_decode($meta->content);
             http_response_code(200);
             echo json_encode($this->data);
         } 
@@ -193,6 +238,7 @@ class Pages extends MY_Controller
             $this->data['content'] = unserialize($data->code);
             $this->data['details'] = ($data->full_code);
             $this->data['meta_desc'] = json_decode($meta->content);
+            $this->data['profiles'] = $this->master->getRows('job_profiles', ['status'=> 1], '', '', 'desc', 'id');
             http_response_code(200);
             echo json_encode($this->data);
         } 
@@ -202,6 +248,40 @@ class Pages extends MY_Controller
         }
         exit;
     }
+
+    function events()
+    {
+        $meta = $this->page->getMetaContent('events');
+        $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+        $this->data['slug'] = $meta->slug;
+        $this->data['meta_desc'] = json_decode($meta->content);
+        $this->data['events'] = $this->master->getRows('events', ['status'=> 1], '', '', 'desc', 'id');
+        http_response_code(200);
+        echo json_encode($this->data);
+        exit;
+    }
+
+    function event_detail()
+    {
+        if($this->input->post())
+        {
+            $post = $this->input->post();
+            $meta = $this->page->getMetaContent('event_detail');
+            $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+            $this->data['slug'] = $meta->slug;
+            $this->data['meta_desc'] = json_decode($meta->content);
+            $this->data['event'] = $this->master->getRow('events', ['id'=> $post['id']]);
+            http_response_code(200);
+            echo json_encode($this->data);
+        }
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
+    
 
     function jobs()
     {

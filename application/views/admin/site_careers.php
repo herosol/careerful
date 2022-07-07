@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-md-12">
                         <label for="banner_detail" class="control-label"> Detail <span class="symbol required">*</span></label>
-                        <textarea name="banner_detail" rows="4" class="form-control ckeditor" ><?= $row['banner_detail'] ?></textarea>
+                        <textarea name="banner_detail" rows="4" class="form-control" ><?= $row['banner_detail'] ?></textarea>
                     </div>
                     <div class="col-md-6">
                         <label for="banner_button_title" class="control-label">Left Button Text (For Vendor) <span class="symbol required">*</span></label>
@@ -136,11 +136,11 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <div class="col-md-12">
-                        <label for="syt_tag" class="control-label"> Tag <span class="symbol required">*</span></label>
+                        <label for="syt_tag" class="control-label"> Heading <span class="symbol required">*</span></label>
                         <input type="text" name="syt_tag" value="<?= $row['syt_tag'] ?>" class="form-control" required>
                     </div>
                     <div class="col-md-12">
-                        <label for="syt_heading" class="control-label"> Heading <span class="symbol required">*</span></label>
+                        <label for="syt_heading" class="control-label"> Tagline <span class="symbol required">*</span></label>
                         <input type="text" name="syt_heading" value="<?= $row['syt_heading'] ?>" class="form-control" required>
                     </div>
                     <div class="col-md-6">
@@ -163,7 +163,7 @@
             </div>
         </div>
 
-        <h3>Section 4</h3>
+        <h3>Section 4 (Left)</h3>
         <div class="form-group">
             <div class="col-md-12">
                 <div class="form-group">
@@ -197,6 +197,48 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <h3>Section 4 (Right)</h3>
+        <div class="form-group">
+            <?php for($i = 1; $i <= 4; $i++):?>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="panel panel-primary" data-collapsed="0">
+                                <div class="panel-heading">
+                                    <div class="panel-title">
+                                        Card <?=$i?> Image 
+                                    </div>
+                                    <div class="panel-options">
+                                        <a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-new thumbnail" style="max-width: 310px; height: 110px;" data-trigger="fileinput">
+                                            <img src="<?=get_site_image_src("images", $row['image'.($i+5)]) ?>" alt="--">
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 320px; max-height: 160px; line-height: 6px;"></div>
+                                        <div>
+                                            <span class="btn btn-white btn-file">
+                                                <span class="fileinput-new">Select image</span>
+                                                <span class="fileinput-exists">Change</span>
+                                                <input type="file" name="image<?=($i+5)?>" accept="image/*" <?php if(empty($row['image'.($i+5)])){echo 'required=""';}?>>
+                                            </span>
+                                            <a href="#" class="btn btn-orange fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="wwu_card_heading<?=$i?>" class="control-label"> Heading <span class="symbol required">*</span></label>
+                            <input type="text" name="wwu_card_heading<?=$i?>" value="<?= $row['wwu_card_heading'.$i] ?>" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+            <?php endfor?>
         </div>
 
             <div class="form-group">

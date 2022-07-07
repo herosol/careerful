@@ -60,6 +60,12 @@ class Auth extends MY_Controller
                 $post = html_escape($this->input->post());
                 $rando = doEncode(rand(99, 999) . '-' . $post['email']);
                 $rando = strlen($rando) > 225 ? substr($rando, 0, 225) : $rando;
+
+                if (isset($_FILES["document"]["name"]) && $_FILES["document"]["name"] != "") {
+                    $image = upload_file(UPLOAD_PATH . 'members', 'document', 'file');
+                    $mem_cv = $image['file_name'];
+                }
+
                 $save_data = [
                     'mem_fname' => ucfirst($post['fname']),
                     'mem_lname' => ucfirst($post['lanme']),
@@ -69,6 +75,7 @@ class Auth extends MY_Controller
                     'mem_language'      => $post['language'],
                     'mem_ethnicity'     => $post['ethnicity'],
                     'mem_sex'           => $post['sexual'],
+                    'mem_disablity'     => $post['disability'],
                     'mem_nationality'   => $post['nationality'],
                     'mem_current_status'=> $post['edu_current'],
                     'mem_university'    => $post['edu_uni'],
@@ -76,6 +83,7 @@ class Auth extends MY_Controller
                     'mem_graduate_year' => $post['edu_graduation'],
                     'mem_opportunity'   => $post['job_type'],
                     'mem_industry'      => $post['sector'],
+                    'mem_cv'            => $mem_cv,
                     'mem_code'          => $rando,
                     'mem_status'        => 1,
                     'mem_last_login'    => date('Y-m-d h:i:s')

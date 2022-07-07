@@ -13,11 +13,22 @@ function get_header()
 function get_pages()
 {
     return [
-        'index'         => 'Home',
-        'about-us'      => 'About Us',
-        'services'      => 'Services',
-        'opportunities' => 'Opportunities',
-        'contact-us'    => 'Contact Us'
+        '/'             => 'Home',
+        '/about'        => 'About Us',
+        '/for-universities' => 'For Universities',
+        '/for-employers'=> 'For Employerss',
+        '/careers'      => 'Careers',
+        '/open-jobs'    => 'Jobs',
+        '/faq'          => 'FAQ\'s',
+        '/events'       => 'Events',
+        '/signin'       => 'Sign In',
+        '/signup'       => 'Sign Up',
+        '/video-interview' => 'Video Interview',
+        '/job-profile' => 'Job Profile',
+        '/booking'     => 'Booking',
+        '/privacy-policy'  => 'Privacy Policy',
+        '/disclaimer'      => 'Disclaimer',
+        '/terms-conditions'=> 'Terms And Conditions',
     ];
 }
 

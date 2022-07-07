@@ -24,7 +24,7 @@
                     <span class="title">Dashboard</span>
                 </a>
             </li>
-            <li class=" <?= ($this->uri->segment(2) == 'sitecontent' || $this->uri->segment(2) == 'preferences') ? ' opened  active' : '' ?>">
+            <li class=" <?= ($this->uri->segment(2) == 'sitecontent' || $this->uri->segment(2) == 'partner_companies' || $this->uri->segment(2) == 'job_profile' || $this->uri->segment(2) == 'preferences') ? ' opened  active' : '' ?>">
                 <a href="javascript:void(0)">
                     <i class="entypo-doc-text"></i>
                     <span class="title">Manage Pages</span>
@@ -60,17 +60,65 @@
                             <span class="title">Careers</span>
                         </a>
                     </li>
-                    <li class=" <?= ($this->uri->segment(3) == 'work_with_us') ? ' active' : '' ?>">
-                        <a href="<?= site_url(ADMIN.'/sitecontent/work_with_us') ?>">
-                            <i class="entypo-doc-text  "></i>
-                            <span class="title">Work With Us</span>
+                    <li class=" <?= ($this->uri->segment(3) == 'work_with_us' || $this->uri->segment(2) == 'partner_companies') ? ' opened  active' : '' ?>">
+                        <a href="javascript:void(0)">
+                            <i class="entypo-doc-text"></i>
+                            <span class="title">For Universities</span>
                         </a>
+                        <ul>
+                            <li class=" <?= ($this->uri->segment(3) == 'work_with_us') ? ' active' : '' ?>">
+                                <a href="<?= site_url(ADMIN.'/sitecontent/work_with_us') ?>">
+                                    <i class="entypo-doc-text  "></i>
+                                    <span class="title">Page Content</span>
+                                </a>
+                            </li>
+                            <li class=" <?= ($this->uri->segment(2) == 'partner_companies') ? ' active' : '' ?>">
+                                <a href="<?= site_url(ADMIN.'/partner_companies') ?>">
+                                    <i class="entypo-doc-text  "></i>
+                                    <span class="title">Partner Companies</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class=" <?= ($this->uri->segment(3) == 'job_profile') ? ' active' : '' ?>">
-                        <a href="<?= site_url(ADMIN.'/sitecontent/job_profile') ?>">
-                            <i class="entypo-doc-text  "></i>
+                    <li class=" <?= ($this->uri->segment(3) == 'partner_with_us' || $this->uri->segment(2) == 'partner_companies') ? ' opened  active' : '' ?>">
+                        <a href="javascript:void(0)">
+                            <i class="entypo-doc-text"></i>
+                            <span class="title">For Employers</span>
+                        </a>
+                        <ul>
+                            <li class=" <?= ($this->uri->segment(3) == 'partner_with_us') ? ' active' : '' ?>">
+                                <a href="<?= site_url(ADMIN.'/sitecontent/partner_with_us') ?>">
+                                    <i class="entypo-doc-text  "></i>
+                                    <span class="title">Page Content</span>
+                                </a>
+                            </li>
+                            <li class=" <?= ($this->uri->segment(2) == 'partner_companies') ? ' active' : '' ?>">
+                                <a href="<?= site_url(ADMIN.'/partner_companies') ?>">
+                                    <i class="entypo-doc-text  "></i>
+                                    <span class="title">Partner Companies</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'job_profile' || $this->uri->segment(2) == 'job_profile') ? ' opened  active' : '' ?>">
+                        <a href="javascript:void(0)">
+                            <i class="entypo-doc-text"></i>
                             <span class="title">Job Profile</span>
                         </a>
+                        <ul>
+                            <li class=" <?= ($this->uri->segment(3) == 'job_profile') ? ' active' : '' ?>">
+                                <a href="<?= site_url(ADMIN.'/sitecontent/job_profile') ?>">
+                                    <i class="entypo-doc-text  "></i>
+                                    <span class="title">Page Content</span>
+                                </a>
+                            </li>
+                            <li class=" <?= ($this->uri->segment(3) == 'jobs') ? ' active' : '' ?>">
+                                <a href="<?= site_url(ADMIN.'/job_profile') ?>">
+                                    <i class="entypo-doc-text  "></i>
+                                    <span class="title">Job Profile Posts</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class=" <?= ($this->uri->segment(3) == 'faq') ? ' active' : '' ?>">
                         <a href="<?= site_url(ADMIN.'/sitecontent/faq') ?>">
@@ -140,6 +188,12 @@
                 <a href="<?= site_url(ADMIN.'/testimonials') ?>">
                     <i class="fa fa-users"></i>
                     <span class="title">Manage Testimonials</span>
+                </a>
+            </li>
+            <li class="opened<?= $this->uri->segment('2') == 'events' ? ' active' : '' ?>">
+                <a href="<?= site_url(ADMIN.'/events') ?>">
+                    <i class="fa fa-users"></i>
+                    <span class="title">Manage Events</span>
                 </a>
             </li>
             <li class="opened<?= $this->uri->segment('2') == 'partners' ? ' active' : '' ?>">
