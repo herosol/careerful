@@ -53,6 +53,17 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="col-md-12">
+                                        <label for="blog_cat" class="control-label">Blog Category<span class="symbol required">*</span></label>
+                                        <select name="blog_cat" id="blog_cat" class="form-control" required>
+                                            <option value=''>-- Select --</option>
+                                            <?php foreach ($cats as $index => $c) { ?>
+                                                <option value="<?= $c->id ?>" <?= ($row->blog_cat == $c->id) ? 'selected' : '' ?>> <?= $c->title ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <div class="col-md-12">
                                                 <label class="control-label"> Title</label>
@@ -81,7 +92,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading col-md-12" style="padding: 5.5px 10px"><i class="fa fa-picture-o"></i> Thumbnail </div>
                                 <div class="panel-body thumbnail_blog" style="padding: 10px" id="imgDiv">
-                                    <img src="<?= !empty($row->image) ? get_site_image_src("blogs/thumbs", $row->image) : 'http://placehold.it/3000x1000' ?>" style="width: 100%; cursor: pointer;" id="newImg">
+                                    <img src="<?= !empty($row->image) ? get_site_image_src("blogs/", $row->image, '500p_') : 'http://placehold.it/3000x1000' ?>" style="width: 100%; cursor: pointer;" id="newImg">
                                     <input type="file" name="image" accept="image/*" id="imgInput">
                                 </div>
                             </div>
@@ -154,12 +165,12 @@
                             <?php
                                 if(empty($blog->image)){
                             ?>
-                                    <img src="<?=base_url();?>adminassets/images/no_image.jpg" class="step_img">
+                                    <img src="<?=base_url();?>adminassets/images/no_image.jpg" class="step_img" style="width: 100px">
                             <?php
                                 }
                                 else{
                             ?>
-                                    <img src="<?=get_site_image_src("blogs/thumbs", $blog->image)?>" class="step_img">
+                                    <img src="<?=get_site_image_src("blogs", $blog->image, 'thumb_')?>" class="step_img" style="width: 100px">
                             <?php
                                 }
                             ?>

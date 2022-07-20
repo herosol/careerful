@@ -60,6 +60,54 @@
                             <span class="title">Careers</span>
                         </a>
                     </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'recruitement_process') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/recruitement_process') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Recruitement Process</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'assessment_center') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/assessment_center') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Assessment Centre</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'cv_and_cover_letter') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/cv_and_cover_letter') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">CV & Cover Letter</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'cv_guidence') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/cv_guidence') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">CV Guidence</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'cv_page') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/cv_page') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">CV Page</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'cover_letter_guidence') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/cover_letter_guidence') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Cover Letter Guidance</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'cover_letter_page') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/cover_letter_page') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Cover Letter Page</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'uk_corporate_culture') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/uk_corporate_culture') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Uk Corporate Culture</span>
+                        </a>
+                    </li>
                     <li class=" <?= ($this->uri->segment(3) == 'work_with_us' || $this->uri->segment(2) == 'partner_companies') ? ' opened  active' : '' ?>">
                         <a href="javascript:void(0)">
                             <i class="entypo-doc-text"></i>
@@ -162,6 +210,66 @@
                         <a href="<?= site_url(ADMIN.'/jobs') ?>">
                             <i class="entypo-doc-text  "></i>
                             <span class="title">Jobs</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class=" <?= ($this->uri->segment(2) == 'onlinetest_categories' || $this->uri->segment(2) == 'onlinetest_subcategories') ? ' opened  active' : '' ?>">
+                <a href="javascript:void(0)">
+                    <i class="entypo-doc-text"></i>
+                    <span class="title">Manage Online Test</span>
+                </a>
+                <ul>
+                    <li class=" <?= ($this->uri->segment(3) == 'onlinetest_categories') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/onlinetest_categories') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Test Categories</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'onlinetest_subcategories') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/onlinetest_subcategories') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Test Subcategories</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class=" <?= ($this->uri->segment(2) == 'video_interview_categories' || $this->uri->segment(2) == 'video_interview_questions') ? ' opened  active' : '' ?>">
+                <a href="javascript:void(0)">
+                    <i class="entypo-doc-text"></i>
+                    <span class="title">Manage Video Interview</span>
+                </a>
+                <ul>
+                    <li class=" <?= ($this->uri->segment(3) == 'video_interview_categories') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/video_interview_categories') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Interview Categories</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'video_interview_questions') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/video_interview_questions') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Interview Questions</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class=" <?= ($this->uri->segment(2) == 'blog_categories' || $this->uri->segment(2) == 'blogs') ? ' opened  active' : '' ?>">
+                <a href="javascript:void(0)">
+                    <i class="entypo-doc-text"></i>
+                    <span class="title">Manage Blogs</span>
+                </a>
+                <ul>
+                    <li class=" <?= ($this->uri->segment(2) == 'blog_categories') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/blog_categories') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Blog Categories</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(2) == 'blogs') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/blogs') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Blogs</span>
                         </a>
                     </li>
                 </ul>

@@ -75,6 +75,18 @@
                         <label class="control-label" for="Place">University Or College</label>
                         <input type="text" name="place" id="place" value="<?php if (isset($row->place)) echo $row->place; ?>" class="form-control" required>
                     </div>
+                    <div class="col-md-12">
+                        <label class="control-label" for="Place">Work At</label>
+                        <input type="text" name="work_at" id="work_at" value="<?php if (isset($row->work_at)) echo $row->work_at; ?>" class="form-control" required>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="control-label" for="Place">Designation</label>
+                        <input type="text" name="designation" id="designation" value="<?php if (isset($row->designation)) echo $row->designation; ?>" class="form-control" required>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="control-label" for="Place">Location</label>
+                        <input type="text" name="location" id="location" value="<?php if (isset($row->location)) echo $row->location; ?>" class="form-control" required>
+                    </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-12">

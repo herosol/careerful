@@ -20,13 +20,11 @@ class Sitecontent extends Admin_Controller
             if(!is_array($content_row))
                 $content_row = array();
 
-            for($i = 1; $i <= 1; $i++) {
+            for($i = 1; $i <= 5; $i++) {
                 if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
-                    
                     $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
-                    generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],300,'thumb_');
-                    generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],500,'500p_');
-                    generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],800,'800p_');
+                    generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],50,'thumb_');
+                    generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],100,'100p_');
                     if(!empty($image['file_name'])){
                         if(isset($content_row['image'.$i]))
                             $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
@@ -57,6 +55,30 @@ class Sitecontent extends Admin_Controller
                 }
 
             }
+
+            $sec6['title'] = $vals['sec6_title'];
+            $sec6['order_no'] = $vals['sec6_order_no'];
+            $sec6Phto['pics'] = $vals['sec6_pics'];
+            unset($vals['sec6_pics'],$vals['sec6_detail'],$vals['sec6_order_no'],$vals['sec6_title']);
+            $this->master->delete_where('multi_text', array('section'=> 'home-sec6'));
+            $sec6s = array('order_no' => $sec6['order_no'],'detail' => $sec6['detail'],'title' => $sec6['title']);
+            saveMultiMediaFieldsImgs(UPLOAD_PATH.'images/', $_FILES['sec6_image'], 'sec6_image', 'home-sec6', $sec6Phto['pics'], $sec6s, 'eng', 100);
+
+            $sec7['title'] = $vals['sec7_title'];
+            $sec7['detail'] = $vals['sec7_detail'];
+            $sec7['order_no'] = $vals['sec7_order_no'];
+            unset($vals['sec7_pics'],$vals['sec7_detail'],$vals['sec7_order_no'],$vals['sec7_title']);
+            $this->master->delete_where('multi_text', array('section'=> 'home-sec7'));
+            $sec7s = array('order_no' => $sec7['order_no'],'detail' => $sec7['detail'],'title' => $sec7['title']);
+            saveMultiMediaFields($sec7s, 'home-sec7');
+
+            $sec8['title'] = $vals['sec8_title'];
+            $sec8['order_no'] = $vals['sec8_order_no'];
+            $sec8Phto['pics'] = $vals['sec8_pics'];
+            unset($vals['sec8_pics'],$vals['sec8_detail'],$vals['sec8_order_no'],$vals['sec8_title']);
+            $this->master->delete_where('multi_text', array('section'=> 'home-sec8'));
+            $sec8s = array('order_no' => $sec8['order_no'],'detail' => $sec8['detail'],'title' => $sec8['title']);
+            saveMultiMediaFieldsImgs(UPLOAD_PATH.'images/', $_FILES['sec8_image'], 'sec8_image', 'home-sec8', $sec8Phto['pics'], $sec8s, 'eng',900);
 
             $data = serialize(array_merge($content_row, $vals));
             $this->master->save($this->table_name,array('code' => $data),'ckey', 'home');
@@ -259,6 +281,383 @@ class Sitecontent extends Admin_Controller
         }
 
         $this->data['row'] = $this->master->getRow($this->table_name, array('ckey' => 'work_with_us'));
+        $this->data['row'] = unserialize($this->data['row']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+
+    public function uk_corporate_culture()
+    {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_uk_corporate_culture';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'uk_corporate_culture'));
+            $content_row = unserialize($content_row->code);
+
+            if(!is_array($content_row))
+                $content_row = array();
+
+            for($i = 1; $i <=1; $i++) {
+                if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
+                    
+                    $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
+                    if($i === 1)
+                    {
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],300,'thumb_');
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],500,'500p_');
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],800,'800p_');
+                    }
+                    if(!empty($image['file_name'])){
+                        if(isset($content_row['image'.$i]))
+                            // $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/thumb_".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/400p_".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/600p_".$content_row['image'.$i]);
+                        $vals['image'.$i] = $image['file_name'];
+                    }
+                }
+            }
+
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name,array('code' => $data),'ckey', 'uk_corporate_culture');
+            setMsg('success', 'Settings updated successfully !');
+            redirect(ADMIN . "/sitecontent/uk_corporate_culture");
+            exit;
+        }
+
+        $this->data['row'] = $this->master->getRow($this->table_name, array('ckey' => 'uk_corporate_culture'));
+        $this->data['row'] = unserialize($this->data['row']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+    
+    public function cv_guidence()
+    {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_cv_guidence';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'cv_guidence'));
+            $content_row = unserialize($content_row->code);
+
+            if(!is_array($content_row))
+                $content_row = array();
+
+            for($i = 1; $i <=1; $i++) {
+                if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
+                    
+                    $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
+                    if($i === 1)
+                    {
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],300,'thumb_');
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],500,'500p_');
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],800,'800p_');
+                    }
+                    if(!empty($image['file_name'])){
+                        if(isset($content_row['image'.$i]))
+                            // $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/thumb_".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/400p_".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/600p_".$content_row['image'.$i]);
+                        $vals['image'.$i] = $image['file_name'];
+                    }
+                }
+            }
+
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name,array('code' => $data),'ckey', 'cv_guidence');
+            setMsg('success', 'Settings updated successfully !');
+            redirect(ADMIN . "/sitecontent/cv_guidence");
+            exit;
+        }
+
+        $this->data['row'] = $this->master->getRow($this->table_name, array('ckey' => 'cv_guidence'));
+        $this->data['row'] = unserialize($this->data['row']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+
+    public function cover_letter_guidence()
+    {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_cover_letter_guidence';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'cover_letter_guidence'));
+            $content_row = unserialize($content_row->code);
+
+            if(!is_array($content_row))
+                $content_row = array();
+
+            for($i = 1; $i <=1; $i++) {
+                if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
+                    
+                    $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
+                    if($i === 1)
+                    {
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],300,'thumb_');
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],500,'500p_');
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],800,'800p_');
+                    }
+                    if(!empty($image['file_name'])){
+                        if(isset($content_row['image'.$i]))
+                            // $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/thumb_".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/400p_".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/600p_".$content_row['image'.$i]);
+                        $vals['image'.$i] = $image['file_name'];
+                    }
+                }
+            }
+
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name,array('code' => $data),'ckey', 'cover_letter_guidence');
+            setMsg('success', 'Settings updated successfully !');
+            redirect(ADMIN . "/sitecontent/cover_letter_guidence");
+            exit;
+        }
+
+        $this->data['row'] = $this->master->getRow($this->table_name, array('ckey' => 'cover_letter_guidence'));
+        $this->data['row'] = unserialize($this->data['row']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+    
+    public function recruitement_process()
+    {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_recruitement_process';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'recruitement_process'));
+            $content_row = unserialize($content_row->code);
+
+            if(!is_array($content_row))
+                $content_row = array();
+
+            for($i = 1; $i <=1; $i++) {
+                if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
+                    
+                    $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
+                    if($i === 1)
+                    {
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],300,'thumb_');
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],500,'500p_');
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],800,'800p_');
+                    }
+                    if(!empty($image['file_name'])){
+                        if(isset($content_row['image'.$i]))
+                            // $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/thumb_".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/400p_".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/600p_".$content_row['image'.$i]);
+                        $vals['image'.$i] = $image['file_name'];
+                    }
+                }
+            }
+
+            $sec2['title'] = $vals['sec2_title'];
+            $sec2['detail'] = $vals['sec2_detail'];
+            $sec2['order_no'] = $vals['sec2_order_no'];
+            unset($vals['sec2_pics'],$vals['sec2_detail'],$vals['sec2_order_no'],$vals['sec2_title']);
+            $this->master->delete_where('multi_text', array('section'=> 'recruitement-proccess-sec2'));
+            $sec2s = array('order_no' => $sec2['order_no'],'detail' => $sec2['detail'],'title' => $sec2['title']);
+            saveMultiMediaFields($sec2s, 'recruitement-proccess-sec2');
+
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name,array('code' => $data),'ckey', 'recruitement_process');
+            setMsg('success', 'Settings updated successfully !');
+            redirect(ADMIN . "/sitecontent/recruitement_process");
+            exit;
+        }
+
+        $this->data['row'] = $this->master->getRow($this->table_name, array('ckey' => 'recruitement_process'));
+        $this->data['row'] = unserialize($this->data['row']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+
+    public function assessment_center()
+    {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_assessment_center';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'assessment_center'));
+            $content_row = unserialize($content_row->code);
+
+            if(!is_array($content_row))
+                $content_row = array();
+
+            for($i = 1; $i <=1; $i++) {
+                if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
+                    
+                    $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
+                    if($i === 1)
+                    {
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],300,'thumb_');
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],500,'500p_');
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],800,'800p_');
+                    }
+                    if(!empty($image['file_name'])){
+                        if(isset($content_row['image'.$i]))
+                            // $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/thumb_".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/400p_".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/600p_".$content_row['image'.$i]);
+                        $vals['image'.$i] = $image['file_name'];
+                    }
+                }
+            }
+
+            $sec2['title'] = $vals['sec2_title'];
+            $sec2['detail'] = $vals['sec2_detail'];
+            $sec2['order_no'] = $vals['sec2_order_no'];
+            unset($vals['sec2_pics'],$vals['sec2_detail'],$vals['sec2_order_no'],$vals['sec2_title']);
+            $this->master->delete_where('multi_text', array('section'=> 'assessment-center-sec2'));
+            $sec2s = array('order_no' => $sec2['order_no'],'detail' => $sec2['detail'],'title' => $sec2['title']);
+            saveMultiMediaFields($sec2s, 'assessment-center-sec2');
+
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name,array('code' => $data),'ckey', 'assessment_center');
+            setMsg('success', 'Settings updated successfully !');
+            redirect(ADMIN . "/sitecontent/assessment_center");
+            exit;
+        }
+
+        $this->data['row'] = $this->master->getRow($this->table_name, array('ckey' => 'assessment_center'));
+        $this->data['row'] = unserialize($this->data['row']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+
+    public function cv_page()
+    {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_cv_page';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'cv_page'));
+            $content_row = unserialize($content_row->code);
+
+            if(!is_array($content_row))
+                $content_row = array();
+
+            // for($i = 1; $i <=1; $i++) {
+            //     if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
+                    
+            //         $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
+            //         if($i === 1)
+            //         {
+            //             generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],300,'thumb_');
+            //             generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],500,'500p_');
+            //             generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],800,'800p_');
+            //         }
+            //         if(!empty($image['file_name'])){
+            //             if(isset($content_row['image'.$i]))
+            //                 // $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
+            //                 // $this->remove_file(UPLOAD_PATH."images/thumb_".$content_row['image'.$i]);
+            //                 // $this->remove_file(UPLOAD_PATH."images/400p_".$content_row['image'.$i]);
+            //                 // $this->remove_file(UPLOAD_PATH."images/600p_".$content_row['image'.$i]);
+            //             $vals['image'.$i] = $image['file_name'];
+            //         }
+            //     }
+            // }
+
+            $sec2['title'] = $vals['sec2_title'];
+            $sec2['detail'] = $vals['sec2_detail'];
+            $sec2['order_no'] = $vals['sec2_order_no'];
+            unset($vals['sec2_pics'],$vals['sec2_detail'],$vals['sec2_order_no'],$vals['sec2_title']);
+            $this->master->delete_where('multi_text', array('section'=> 'cv-page-left-instructions'));
+            $sec2s = array('order_no' => $sec2['order_no'],'detail' => $sec2['detail'],'title' => $sec2['title']);
+            saveMultiMediaFields($sec2s, 'cv-page-left-instructions');
+
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name,array('code' => $data),'ckey', 'cv_page');
+            setMsg('success', 'Settings updated successfully !');
+            redirect(ADMIN . "/sitecontent/cv_page");
+            exit;
+        }
+
+        $this->data['row'] = $this->master->getRow($this->table_name, array('ckey' => 'cv_page'));
+        $this->data['row'] = unserialize($this->data['row']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+
+    public function cover_letter_page()
+    {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_cover_letter_page';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'cover_letter_page'));
+            $content_row = unserialize($content_row->code);
+
+            if(!is_array($content_row))
+                $content_row = array();
+
+            // for($i = 1; $i <=1; $i++) {
+            //     if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
+                    
+            //         $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
+            //         if($i === 1)
+            //         {
+            //             generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],300,'thumb_');
+            //             generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],500,'500p_');
+            //             generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],800,'800p_');
+            //         }
+            //         if(!empty($image['file_name'])){
+            //             if(isset($content_row['image'.$i]))
+            //                 // $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
+            //                 // $this->remove_file(UPLOAD_PATH."images/thumb_".$content_row['image'.$i]);
+            //                 // $this->remove_file(UPLOAD_PATH."images/400p_".$content_row['image'.$i]);
+            //                 // $this->remove_file(UPLOAD_PATH."images/600p_".$content_row['image'.$i]);
+            //             $vals['image'.$i] = $image['file_name'];
+            //         }
+            //     }
+            // }
+
+            $sec2['title'] = $vals['sec2_title'];
+            $sec2['detail'] = $vals['sec2_detail'];
+            $sec2['order_no'] = $vals['sec2_order_no'];
+            unset($vals['sec2_pics'],$vals['sec2_detail'],$vals['sec2_order_no'],$vals['sec2_title']);
+            $this->master->delete_where('multi_text', array('section'=> 'cover-letter-page-left-instructions'));
+            $sec2s = array('order_no' => $sec2['order_no'],'detail' => $sec2['detail'],'title' => $sec2['title']);
+            saveMultiMediaFields($sec2s, 'cover-letter-page-left-instructions');
+
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name,array('code' => $data),'ckey', 'cover_letter_page');
+            setMsg('success', 'Settings updated successfully !');
+            redirect(ADMIN . "/sitecontent/cover_letter_page");
+            exit;
+        }
+
+        $this->data['row'] = $this->master->getRow($this->table_name, array('ckey' => 'cover_letter_page'));
+        $this->data['row'] = unserialize($this->data['row']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+
+    public function cv_and_cover_letter()
+    {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_cv_and_cover_letter';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'cv_and_cover_letter'));
+            $content_row = unserialize($content_row->code);
+
+            if(!is_array($content_row))
+                $content_row = array();
+
+            for($i = 1; $i <=2; $i++) {
+                if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
+                    
+                    $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
+                    generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],100,'thumb_');
+                    if(!empty($image['file_name'])){
+                        if(isset($content_row['image'.$i]))
+                            // $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/thumb_".$content_row['image'.$i]);
+                        $vals['image'.$i] = $image['file_name'];
+                    }
+                }
+            }
+
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name,array('code' => $data),'ckey', 'cv_and_cover_letter');
+            setMsg('success', 'Settings updated successfully !');
+            redirect(ADMIN . "/sitecontent/cv_and_cover_letter");
+            exit;
+        }
+
+        $this->data['row'] = $this->master->getRow($this->table_name, array('ckey' => 'cv_and_cover_letter'));
         $this->data['row'] = unserialize($this->data['row']->code);
         $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
     }

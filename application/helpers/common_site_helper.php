@@ -296,6 +296,72 @@ function count_new_header_notis()
     return intval($query->row()->total);
 }
 
+function saveMultiMediaFieldsImgs($path, $files, $fieldname, $section, $pics, $cont,$site_lang='eng',$thumb_size='') {
+    // pr($files);
+    extract($cont);
+    $CI = get_instance();
+    $cpt = count($files['name']);
+    for ($i = 0; $i < $cpt; $i++) {
+            if ($files['name'][$i] != '') {
+            $img = saveAnyPic($path, $files['name'][$i], $files['type'][$i], $files['tmp_name'][$i], $files['error'][$i], $files['size'][$i], $fieldname);
+            $image = $CI->upload->data();
+            if(!empty($thumb_size)){
+                generate_thumb($path, $path, $img['file_name'], $thumb_size, 'thumb_');
+            }
+            $arr['site_lang'] = $site_lang;
+            $arr['section'] = $section;
+            $arr['title'] = ($cont['title'][$i] != '') ? $cont['title'][$i] : '';
+            $arr['detail'] = ($cont['detail'][$i] != '') ? $cont['detail'][$i] : '';
+            $arr['txt1'] = ($cont['txt1'][$i] != '') ? $cont['txt1'][$i] : '';
+            $arr['txt2'] = ($cont['txt2'][$i] != '') ? $cont['txt2'][$i] : '';
+            $arr['txt3'] = ($cont['txt3'][$i] != '') ? $cont['txt3'][$i] : '';
+            $arr['txt4'] = ($cont['txt4'][$i] != '') ? $cont['txt4'][$i] : '';
+            $arr['txt5'] = ($cont['txt5'][$i] != '') ? $cont['txt5'][$i] : '';
+            $arr['image'] = ($img['file_name'] != '') ? $img['file_name'] : '';
+            $arr['order_no'] = ($cont['order_no'][$i] != '') ? $cont['order_no'][$i] : '';
+            $CI->db->set($arr);
+            $CI->db->insert('multi_text');
+        }else{
+            if ($pics[$i] != '') {
+                $arr['site_lang'] = $site_lang;
+                $arr['section'] = $section;
+                $arr['title'] = ($cont['title'][$i] != '') ? $cont['title'][$i] : '';
+                $arr['detail'] = ($cont['detail'][$i] != '') ? $cont['detail'][$i] : '';
+                $arr['txt1'] = ($cont['txt1'][$i] != '') ? $cont['txt1'][$i] : '';
+                $arr['txt2'] = ($cont['txt2'][$i] != '') ? $cont['txt2'][$i] : '';
+                $arr['txt3'] = ($cont['txt3'][$i] != '') ? $cont['txt3'][$i] : '';
+                $arr['txt4'] = ($cont['txt4'][$i] != '') ? $cont['txt4'][$i] : '';
+                $arr['txt5'] = ($cont['txt5'][$i] != '') ? $cont['txt5'][$i] : '';
+                $arr['image'] = $pics[$i];
+                $arr['order_no'] = ($cont['order_no'][$i] != '') ? $cont['order_no'][$i] : '';
+                $CI->db->set($arr);
+                $CI->db->insert('multi_text');
+            }
+            
+        }
+    }
+    return $success;
+}
+
+function saveAnyPic($path, $pic_name, $pic_type, $pic_tmp, $pic_error, $pic_size, $fieldname){
+    $CI = get_instance();
+    $_FILES[$fieldname]['name'] = $pic_name;
+    $_FILES[$fieldname]['type'] = $pic_type;
+    $_FILES[$fieldname]['tmp_name'] = $pic_tmp;
+    $_FILES[$fieldname]['error'] = $pic_error;
+    $_FILES[$fieldname]['size'] = $pic_size;
+    $config['upload_path'] = $path;
+    $config['allowed_types'] = 'jpg|png|jpeg|gif|svg';
+    $config['max_size'] = 2100000;
+    $stamp = time() . '_' . rand(1111, 9999);
+    $file_name = "image_" . $stamp;
+    $config['file_name'] = $file_name;
+    $CI->load->library('upload', $config);
+    if ($CI->upload->do_upload($fieldname)) {
+        return $CI->upload->data();
+    }
+}
+
 function get_header_notis($limit = '', $order_by = 'desc')
 {
     global $CI;
@@ -407,7 +473,33 @@ function get_mem_image($mem_id)
     $row = $CI->master->getRow('members', array('mem_id' => $mem_id));
     return $row->mem_image;
 }
-
+function getMultiText($section) {
+    $CI = get_instance();
+    $CI->db->where('section', $section);
+    $CI->db->order_by('order_no', 'ASC');
+    $query = $CI->db->get('multi_text');
+    return $query->result();
+}
+function saveMultiMediaFields($vals,$section,$site_lang='eng') {
+    //pr($vals);
+    if (count($vals['title']) > 0) {
+        for ($i = 0; $i < count($vals['title']); $i++) {
+            // $arr['site_lang'] = $site_lang;
+            $arr['section'] = $section;
+            $arr['title'] = ($vals['title'][$i] != '') ? $vals['title'][$i] : '';
+            $arr['detail'] = ($vals['detail'][$i] != '') ? $vals['detail'][$i] : '';
+            $arr['txt1'] = ($vals['txt1'][$i] != '') ? $vals['txt1'][$i] : '';
+            $arr['txt2'] = ($vals['txt2'][$i] != '') ? $vals['txt2'][$i] : '';
+            $arr['txt3'] = ($vals['txt3'][$i] != '') ? $vals['txt3'][$i] : '';
+            $arr['txt4'] = ($vals['txt4'][$i] != '') ? $vals['txt4'][$i] : '';
+            $arr['txt5'] = ($vals['txt5'][$i] != '') ? $vals['txt5'][$i] : '';
+            $arr['order_no'] = ($vals['order_no'][$i] != '') ? $vals['order_no'][$i] : '';
+            $CI = get_instance();
+            $CI->db->set($arr);
+            $CI->db->insert('multi_text');
+        }
+    } 
+}
 function get_mem_name($mem_id)
 {
     global $CI;
@@ -415,6 +507,22 @@ function get_mem_name($mem_id)
     $row = $CI->master->getRow('members', array('mem_id' => $mem_id));
     return ucwords($row->mem_fname . ' ' . $row->mem_lname);
 }
+
+function get_online_test_cat($id)
+{
+    global $CI;
+    $CI = get_instance();
+    $row = $CI->master->getRow('online_test_categories', array('id' => $id));
+    return ucfirst($row->name);
+}
+function get_video_interview_cat($id)
+{
+    global $CI;
+    $CI = get_instance();
+    $row = $CI->master->getRow('video_interview_categories', array('id' => $id));
+    return ucfirst($row->name);
+}
+
 function fet_mem_email($mem_id)
 {
     global $CI;

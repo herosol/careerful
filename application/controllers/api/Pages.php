@@ -16,12 +16,16 @@ class Pages extends MY_Controller
         $data = $this->page->getPageContent('home');
         if ($data) 
         {
-            $this->data['content'] = unserialize($data->code);
+            $this->data['content'] = $content = unserialize($data->code);
             $this->data['details'] = ($data->full_code);
             $this->data['meta_desc'] = json_decode($meta->content);
             $this->data['partners']  = $this->master->get_data_rows('partners', ['status'=> '1']); 
             $this->data['sponsors']  = $this->master->get_data_rows('visa_sponsors', ['status'=> '1']); 
             $this->data['testimonials']  = $this->master->get_data_rows('testimonials', ['status'=> '1']); 
+            $this->data['sec6s'] = getMultiText('home-sec6');
+            $this->data['sec7s'] = getMultiText('home-sec7');
+            $this->data['sec8s'] = getMultiText('home-sec8');
+            $this->data['candidates_images'] = [$content['image1'], $content['image2'], $content['image3'], $content['image4'], $content['image5']];
             http_response_code(200);
             echo json_encode($this->data);
         } 

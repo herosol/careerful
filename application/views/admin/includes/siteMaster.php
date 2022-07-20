@@ -481,5 +481,33 @@
                 })
             }(jQuery))
         </script>
+
+        <script>
+            jQuery(".addNewRowTbl").click(function(){
+                var clonedRow = jQuery(this).closest('#newTable').find('tr:last-child').clone();
+                clonedRow.find('input').val('').end();
+                clonedRow.find('textarea').val('').end();
+                clonedRow.find('td:last-child').html('<td class="text-center"><a href="javascript:void(0)" class="delNewRowTbl" id="delNewRowTbl"><i class="fa fa-minus" aria-hidden="true"></i></a></td>');
+                clonedRow.find('img').attr('src',base_url+'assets/images/no-image.svg');
+                jQuery(this).closest('#newTable').before().append(clonedRow);
+            });
+
+            jQuery(document).on('click', '.delNewRowTbl', function () {
+                jQuery(this).closest('tr').remove();
+            });
+
+            jQuery(document).on('change', '#newImgInput', function () {
+                var preview = jQuery(this).closest("#imgDiv").find("#newImg");
+                var oFReader = new FileReader();
+                oFReader.readAsDataURL(jQuery(this)[0].files[0]);
+                oFReader.addEventListener("load", function () {
+                    preview.attr('src',oFReader.result);
+                }, false);
+            });
+
+            jQuery(document).on('click', '#newImg', function () {
+                jQuery(this).closest("#imgDiv").find('#newImgInput').trigger('click');
+            });
+        </script>
     </body>
     </html>

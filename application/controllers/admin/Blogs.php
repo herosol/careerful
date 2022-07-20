@@ -21,12 +21,17 @@ class Blogs extends Admin_Controller {
         $this->data['settings'] = $this->master->get_data_row('siteadmin');
         $this->data['pageView'] = ADMIN . '/blogs';
          if ($this->input->post()) {
-            $vals = html_escape($this->input->post());
+            $vals = $this->input->post();
             $content_row = $this->master->get_data_row('blogs', array('id'=>$this->uri->segment(4)));
             if (isset($_FILES["image"]["name"]) && $_FILES["image"]["name"] != "") {
                 $image1 = upload_file(UPLOAD_PATH.'blogs/', 'image');
-                generate_thumb(UPLOAD_PATH.'blogs/' , UPLOAD_PATH.'blogs/thumbs/', $image1['file_name'], 500);
-                generate_thumb(UPLOAD_PATH.'blogs/' , UPLOAD_PATH.'blogs/large/', $image1['file_name'], 850);
+                    generate_thumb(UPLOAD_PATH . "blogs/", UPLOAD_PATH . "blogs/", $image1['file_name'],100,'thumb_');
+                    generate_thumb(UPLOAD_PATH . "blogs/", UPLOAD_PATH . "blogs/", $image1['file_name'],200,'200p_');
+                    generate_thumb(UPLOAD_PATH . "blogs/", UPLOAD_PATH . "blogs/", $image1['file_name'],400,'400p_');
+                    generate_thumb(UPLOAD_PATH . "blogs/", UPLOAD_PATH . "blogs/", $image1['file_name'],500,'500p_');
+                    generate_thumb(UPLOAD_PATH . "blogs/", UPLOAD_PATH . "blogs/", $image1['file_name'],700,'700p_');
+                    generate_thumb(UPLOAD_PATH . "blogs/", UPLOAD_PATH . "blogs/", $image1['file_name'],800,'800p_');
+                    generate_thumb(UPLOAD_PATH . "blogs/", UPLOAD_PATH . "blogs/", $image1['file_name'],1000,'1000p_');
                 $vals['image']=$image1['file_name'];
             }
             else{
@@ -49,6 +54,7 @@ class Blogs extends Admin_Controller {
                 'meta_description'=>$vals['meta_description'],
                 'status'=>$vals['status'],
                 'image'=>$vals['image'],
+                'blog_cat'=>$vals['blog_cat'],
                 'created_date'=>$created_date,
             );
             $id = $this->master->save('blogs', $values, 'id', $this->uri->segment(4));
@@ -60,7 +66,8 @@ class Blogs extends Admin_Controller {
             }
         }
         $this->data['row'] = $this->master->get_data_row('blogs',array('id'=>$this->uri->segment('4')));
-         $this->load->view(ADMIN . '/includes/siteMaster', $this->data);        
+        $this->data['cats'] = $this->master->get_data_rows('blog_categories', ['status'=> 1]);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);        
     }
 
     function add_category(){
