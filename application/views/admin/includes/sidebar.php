@@ -174,6 +174,12 @@
                             <span class="title">FAQs</span>
                         </a>
                     </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'blogs') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/blogs') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Blogs</span>
+                        </a>
+                    </li>
                     <li class=" <?= ($this->uri->segment(3) == 'terms_and_conditions') ? ' active' : '' ?>">
                         <a href="<?= site_url(ADMIN.'/sitecontent/terms_and_conditions') ?>">
                             <i class="entypo-doc-text  "></i>

@@ -61,6 +61,22 @@
                         <label for="detail" class="control-label"> Detail <span class="symbol required">*</span></label>
                         <textarea name="detail" rows="4" class="form-control ckeditor" ><?= $row['detail'] ?></textarea>
                     </div>
+                    <div class="col-md-6">
+                            <label for="sec2_banner_button_title" class="control-label">Button Text<span class="symbol required">*</span></label>
+                            <input type="text" name="sec2_banner_button_title" id="sec2_banner_button_title" value="<?= $row['sec2_banner_button_title'] ?>" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="sec2_banner_button_link" class="control-label">Button Link<span class="symbol required">*</span></label>
+                            <select name="sec2_banner_button_link" id="sec2_banner_button_link" class="form-control" required>
+                                <option value=''>-- Select --</option>
+                                <?php $pages = get_pages();
+                                foreach ($pages as $index => $page) { ?>
+                                    <option value="<?= $index ?>" <?= ($row['sec2_banner_button_link'] == $index) ? 'selected' : '' ?>> <?= $page ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
                 </div>
             </div>
         </div>

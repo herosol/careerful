@@ -27,6 +27,7 @@ class Job_profile extends Admin_Controller {
                 $image1 = upload_file(UPLOAD_PATH.'job_profile/', 'image');
                 generate_thumb(UPLOAD_PATH . "job_profile/", UPLOAD_PATH . "job_profile/", $image1['file_name'],200,'thumb_');
                 generate_thumb(UPLOAD_PATH . "job_profile/", UPLOAD_PATH . "job_profile/", $image1['file_name'],300,'300p_');
+                generate_thumb(UPLOAD_PATH . "job_profile/", UPLOAD_PATH . "job_profile/", $image1['file_name'],400,'400p_');
                 $vals['image']=$image1['file_name'];
             }
             else{
@@ -45,6 +46,15 @@ class Job_profile extends Admin_Controller {
                 'image'=>$vals['image'],
                 'title'=>$vals['title'],
                 'short_desc'=>$vals['short_description'],
+                'designation'=>$vals['designation'],
+                'avg_salary_min'=>$vals['avg_salary_min'],
+                'avg_salary_max'=>$vals['avg_salary_max'],
+                'degree_requirements'=>$vals['degree_requirements'],
+                'working_hour_min'=>$vals['working_hour_min'],
+                'working_hour_max'=>$vals['working_hour_max'],
+                'location'=>$vals['location'],
+                'bold_heading'=>$vals['bold_heading'],
+                'long_description'=>$vals['long_description'],
                 'status'=>$vals['status'],
                 'created_date'=>$created_date,
             );

@@ -99,6 +99,27 @@ class Pages extends MY_Controller
         }
         exit;
     }
+    
+    function uk_corporate()
+    {
+        $meta = $this->page->getMetaContent('uk_corporate_culture');
+        $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+        $this->data['slug'] = $meta->slug;
+        $data = $this->page->getPageContent('uk_corporate_culture');
+        if ($data) 
+        {
+            $this->data['content'] = unserialize($data->code);
+            $this->data['details'] = ($data->full_code);
+            $this->data['meta_desc'] = json_decode($meta->content);
+            http_response_code(200);
+            echo json_encode($this->data);
+        } 
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
 
     function terms_and_conditions()
     {
@@ -154,6 +175,35 @@ class Pages extends MY_Controller
             $this->data['details'] = ($data->full_code);
             $this->data['meta_desc'] = json_decode($meta->content);
             $this->data['faqs'] = $this->master->getRows('faqs', ['status'=> 1], '', '', 'acs', 'sort_order');
+            http_response_code(200);
+            echo json_encode($this->data);
+        } 
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
+    function blogs()
+    {
+        $meta = $this->page->getMetaContent('blogs');
+        $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+        $this->data['slug'] = $meta->slug;
+        $data = $this->page->getPageContent('blogs');
+        if ($data) 
+        {
+            $this->data['content'] = unserialize($data->code);
+            $this->data['details'] = ($data->full_code);
+            $this->data['meta_desc'] = json_decode($meta->content);
+            $this->data['blogs'] = $this->master->getRows('blogs', ['status'=> 1], '', '', 'desc', 'id');
+            $cats  = $this->master->getRows('blog_categories', ['status'=> 1]);
+            $this->data['cats'] = [];
+            foreach($cats as $index => $cat):
+                $num = $this->master->num_rows('blogs', ['blog_cat'=> $cat->id, 'status'=> 1]);
+                if($num > 0)
+                    $this->data['cats'][] = $cat;
+            endforeach;
             http_response_code(200);
             echo json_encode($this->data);
         } 
@@ -275,6 +325,46 @@ class Pages extends MY_Controller
             $this->data['slug'] = $meta->slug;
             $this->data['meta_desc'] = json_decode($meta->content);
             $this->data['event'] = $this->master->getRow('events', ['id'=> $post['id']]);
+            http_response_code(200);
+            echo json_encode($this->data);
+        }
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
+    function blog_detail()
+    {
+        if($this->input->post())
+        {
+            $post = $this->input->post();
+            $meta = $this->page->getMetaContent('blog_detail');
+            $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+            $this->data['slug'] = $meta->slug;
+            $this->data['meta_desc'] = json_decode($meta->content);
+            $this->data['blog'] = $this->master->getRow('blogs', ['id'=> $post['id']]);
+            http_response_code(200);
+            echo json_encode($this->data);
+        }
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
+    function job_profile_detail()
+    {
+        if($this->input->post())
+        {
+            $post = $this->input->post();
+            $meta = $this->page->getMetaContent('job_profile_detail');
+            $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+            $this->data['slug'] = $meta->slug;
+            $this->data['meta_desc'] = json_decode($meta->content);
+            $this->data['profile'] = $this->master->getRow('job_profiles', ['id'=> $post['id']]);
             http_response_code(200);
             echo json_encode($this->data);
         }
@@ -478,6 +568,21 @@ class Pages extends MY_Controller
                 $res['jobs'][] = $j;
             endforeach;
             
+            $res['status'] = 1;
+            echo json_encode($res);
+            exit;
+        }
+    }
+
+    function fetch_blogs_data()
+    {
+        if($this->input->post())
+        {
+            $res = [];
+            $res['status'] = 0;
+            $post = $this->input->post();
+
+            $res['blogs'] = $this->master->getRows('blogs', ['blog_cat'=> $post['cat_id']], '','', 'desc', 'id');
             $res['status'] = 1;
             echo json_encode($res);
             exit;

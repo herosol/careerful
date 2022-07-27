@@ -37,6 +37,12 @@
                                                 <input type="text" name="title" value="<?=$row->title?>" class="form-control" required>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <label class="control-label">Designation</label>
+                                                <input type="text" name="designation" value="<?=$row->designation?>" class="form-control" required>
+                                            </div>
+                                        </div>
                                     </div>                                  
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -48,7 +54,112 @@
                                     </div> 
                                     <div class="clearfix"></div>
                                 </div>
-                            </div>                            
+                            </div>  
+                            
+                            <div class="clearfix"></div>
+
+                            <div class="panel-heading col-md-12">
+                                <div class="panel-title"><h3>Salary Range (A Year)</h3></div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <label class="control-label">Minimum Salary</label>
+                                            <input type="text" name="avg_salary_min" value="<?=$row->avg_salary_min?>" class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <label class="control-label">Max Salary</label>
+                                            <input type="text" name="avg_salary_max" value="<?=$row->avg_salary_max?>" class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>                                   
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="clearfix"></div>
+
+                            <div class="panel-heading col-md-12">
+                                <div class="panel-title"><h3>Degree Requirements</h3></div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <label class="control-label">Degree Requirements</label>
+                                            <input type="text" name="degree_requirements" value="<?=$row->degree_requirements?>" class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>                                   
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="clearfix"></div>
+
+                            <div class="panel-heading col-md-12">
+                                <div class="panel-title"><h3>Working Hours (A Week)</h3></div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <label class="control-label">Minimum Hours</label>
+                                            <input type="text" name="working_hour_min" value="<?=$row->working_hour_min?>" class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <label class="control-label">Max Hours</label>
+                                            <input type="text" name="working_hour_max" value="<?=$row->working_hour_max?>" class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>                                   
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="clearfix"></div>
+
+                            <div class="panel-heading col-md-12">
+                                <div class="panel-title"><h3>Location</h3></div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <label class="control-label">Location</label>
+                                            <input type="text" name="location" value="<?=$row->location?>" class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>                                   
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="clearfix"></div>
+
+                            <div class="panel-heading col-md-12">
+                                <div class="panel-title"><h3>Detail</h3></div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <label class="control-label">Bold Heading</label>
+                                            <textarea  rows="3" class="form-control" name="bold_heading" required><?=$row->bold_heading?></textarea>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="control-label">Job Profile Detail</label>
+                                            <textarea  rows="8" class="form-control ckeditor" name="long_description" required><?=$row->long_description?></textarea>
+                                        </div>
+                                    </div>
+                                </div>                                   
+                                <div class="clearfix"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-3">
