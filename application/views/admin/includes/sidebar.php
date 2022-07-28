@@ -72,6 +72,12 @@
                             <span class="title">Assessment Centre</span>
                         </a>
                     </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'interview') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/interview') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Interview</span>
+                        </a>
+                    </li>
                     <li class=" <?= ($this->uri->segment(3) == 'cv_and_cover_letter') ? ' active' : '' ?>">
                         <a href="<?= site_url(ADMIN.'/sitecontent/cv_and_cover_letter') ?>">
                             <i class="entypo-doc-text  "></i>
@@ -172,6 +178,12 @@
                         <a href="<?= site_url(ADMIN.'/sitecontent/faq') ?>">
                             <i class="entypo-doc-text  "></i>
                             <span class="title">FAQs</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'testimonials') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/testimonials') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Testimonials</span>
                         </a>
                     </li>
                     <li class=" <?= ($this->uri->segment(3) == 'blogs') ? ' active' : '' ?>">

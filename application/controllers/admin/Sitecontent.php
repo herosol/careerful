@@ -521,6 +521,58 @@ class Sitecontent extends Admin_Controller
         $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
     }
 
+    public function interview()
+    {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_interview';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'interview'));
+            $content_row = unserialize($content_row->code);
+
+            if(!is_array($content_row))
+                $content_row = array();
+
+            for($i = 1; $i <=1; $i++) {
+                if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
+                    
+                    $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
+                    if($i === 1)
+                    {
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],300,'thumb_');
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],500,'500p_');
+                        generate_thumb(UPLOAD_PATH.'images/',UPLOAD_PATH.'images/',$image['file_name'],800,'800p_');
+                    }
+                    if(!empty($image['file_name'])){
+                        if(isset($content_row['image'.$i]))
+                            // $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/thumb_".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/400p_".$content_row['image'.$i]);
+                            // $this->remove_file(UPLOAD_PATH."images/600p_".$content_row['image'.$i]);
+                        $vals['image'.$i] = $image['file_name'];
+                    }
+                }
+            }
+
+            $sec2['title'] = $vals['sec2_title'];
+            $sec2['detail'] = $vals['sec2_detail'];
+            $sec2['order_no'] = $vals['sec2_order_no'];
+            unset($vals['sec2_pics'],$vals['sec2_detail'],$vals['sec2_order_no'],$vals['sec2_title']);
+            $this->master->delete_where('multi_text', array('section'=> 'interview-sec2'));
+            $sec2s = array('order_no' => $sec2['order_no'],'detail' => $sec2['detail'],'title' => $sec2['title']);
+            saveMultiMediaFields($sec2s, 'interview-sec2');
+
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name,array('code' => $data),'ckey', 'interview');
+            setMsg('success', 'Settings updated successfully !');
+            redirect(ADMIN . "/sitecontent/interview");
+            exit;
+        }
+
+        $this->data['row'] = $this->master->getRow($this->table_name, array('ckey' => 'interview'));
+        $this->data['row'] = unserialize($this->data['row']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+
     public function cv_page()
     {
         $this->data['enable_editor'] = TRUE;
@@ -750,6 +802,30 @@ class Sitecontent extends Admin_Controller
         }
 
         $this->data['row'] = $this->master->getRow($this->table_name, array('ckey' => 'faq'));
+        $this->data['row'] = unserialize($this->data['row']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+
+    public function testimonials()
+    {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_testimonials';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'testimonials'));
+            $content_row = unserialize($content_row->code);
+
+            if(!is_array($content_row))
+                $content_row = array();
+
+
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name,array('code' => $data),'ckey', 'testimonials');
+            setMsg('success', 'Settings updated successfully !');
+            redirect(ADMIN . "/sitecontent/testimonials");
+            exit;
+        }
+
+        $this->data['row'] = $this->master->getRow($this->table_name, array('ckey' => 'testimonials'));
         $this->data['row'] = unserialize($this->data['row']->code);
         $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
     }

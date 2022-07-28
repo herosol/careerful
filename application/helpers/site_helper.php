@@ -29,6 +29,8 @@ function get_pages()
         '/privacy-policy'  => 'Privacy Policy',
         '/disclaimer'      => 'Disclaimer',
         '/terms-conditions'=> 'Terms And Conditions',
+        '/cv-guidance'=> 'Cv Guidance',
+        '/cover-letter-guidance'=> 'Cover Letter Guidance',
     ];
 }
 

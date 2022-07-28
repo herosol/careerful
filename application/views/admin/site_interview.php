@@ -1,8 +1,8 @@
-<?php echo getBredcrum(ADMIN, array('#' => 'Recruitement Process')); ?>
+<?php echo getBredcrum(ADMIN, array('#' => 'Interview')); ?>
 <?php echo showMsg(); ?>
 <div class="row margin-bottom-10">
     <div class="col-md-6">
-        <h2 class="no-margin"><i class="entypo-window"></i> Update <strong>Recruitement Process</strong></h2>
+        <h2 class="no-margin"><i class="entypo-window"></i> Update <strong>Interview</strong></h2>
     </div>
     <div class="col-md-6 text-right">
         <!--        <a href="<?php echo base_url('admin/services'); ?>" class="btn btn-lg btn-default"><i class="fa fa-arrow-left"></i> Cancel</a>-->
@@ -69,6 +69,22 @@
                             ?>
                         </select>
                     </div>
+                    <div class="col-md-6">
+                        <label for="right_banner_button_title" class="control-label">Button Text<span class="symbol required">*</span></label>
+                        <input type="text" name="right_banner_button_title" id="right_banner_button_title" value="<?= $row['right_banner_button_title'] ?>" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="right_banner_button_link" class="control-label">Button Link<span class="symbol required">*</span></label>
+                        <select name="right_banner_button_link" id="right_banner_button_link" class="form-control" required>
+                            <option value=''>-- Select --</option>
+                            <?php $pages = get_pages();
+                            foreach ($pages as $index => $page) { ?>
+                                <option value="<?= $index ?>" <?= ($row['right_banner_button_link'] == $index) ? 'selected' : '' ?>> <?= $page ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -90,7 +106,7 @@
                                         <th width="10%">Order#</th>
                                         <th width="4%" class="text-center"><a href="javascript:void(0)" id="addNewRowTbl" class="addNewRowTbl"><i class="fa fa-plus" aria-hidden="true"></i></a></th>
                                     </tr>
-                                    <?php $sec2s = getMultiText('recruitement-proccess-sec2'); ?>
+                                    <?php $sec2s = getMultiText('interview-sec2'); ?>
                                     <?php if (count($sec2s) > 0) { $sec2s_count = 1; ?>
                                     <?php foreach ($sec2s as $sec2) { ?>
                                         <tr>

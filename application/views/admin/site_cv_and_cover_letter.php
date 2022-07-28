@@ -64,6 +64,19 @@
                         <label for="left_sec_detail" class="control-label"> Detail <span class="symbol required">*</span></label>
                         <textarea name="left_sec_detail" rows="4" class="form-control ckeditor" ><?= $row['left_sec_detail'] ?></textarea>
                     </div>
+
+                    <div class="col-md-12">
+                        <label for="left_sec_card_link" class="control-label">Card Link<span class="symbol required">*</span></label>
+                        <select name="left_sec_card_link" id="left_sec_card_link" class="form-control" required>
+                            <option value=''>-- Select --</option>
+                            <?php $pages = get_pages();
+                            foreach ($pages as $index => $page) { ?>
+                                <option value="<?= $index ?>" <?= ($row['left_sec_card_link'] == $index) ? 'selected' : '' ?>> <?= $page ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
@@ -101,6 +114,19 @@
                     <div class="col-md-12">
                         <label for="right_sec_detail" class="control-label"> Detail <span class="symbol required">*</span></label>
                         <textarea name="right_sec_detail" rows="4" class="form-control ckeditor" ><?= $row['right_sec_detail'] ?></textarea>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="right_sec_card_link" class="control-label">Card Link<span class="symbol required">*</span></label>
+                        <select name="right_sec_card_link" id="right_sec_card_link" class="form-control" required>
+                            <option value=''>-- Select --</option>
+                            <?php $pages = get_pages();
+                            foreach ($pages as $index => $page) { ?>
+                                <option value="<?= $index ?>" <?= ($row['right_sec_card_link'] == $index) ? 'selected' : '' ?>> <?= $page ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
                     </div>
                 </div>
             </div>

@@ -121,6 +121,201 @@ class Pages extends MY_Controller
         exit;
     }
 
+    function testimonials()
+    {
+        $meta = $this->page->getMetaContent('testimonials');
+        $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+        $this->data['slug'] = $meta->slug;
+        $data = $this->page->getPageContent('testimonials');
+        if ($data) 
+        {
+            $this->data['content'] = unserialize($data->code);
+            $this->data['details'] = ($data->full_code);
+            $this->data['meta_desc'] = json_decode($meta->content);
+            $this->data['testimonials'] = $this->master->getRows('testimonials', ['status'=> 1], '', '', 'desc', 'id');
+            http_response_code(200);
+            echo json_encode($this->data);
+        } 
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
+    function cv_cover_letter()
+    {
+        $meta = $this->page->getMetaContent('cv_and_cover_letter');
+        $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+        $this->data['slug'] = $meta->slug;
+        $data = $this->page->getPageContent('cv_and_cover_letter');
+        if ($data) 
+        {
+            $this->data['content'] = unserialize($data->code);
+            $this->data['details'] = ($data->full_code);
+            $this->data['meta_desc'] = json_decode($meta->content);
+            http_response_code(200);
+            echo json_encode($this->data);
+        } 
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
+    function cv_guidance()
+    {
+        $meta = $this->page->getMetaContent('cv_guidence');
+        $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+        $this->data['slug'] = $meta->slug;
+        $data = $this->page->getPageContent('cv_guidence');
+        if ($data) 
+        {
+            $this->data['content'] = unserialize($data->code);
+            $this->data['details'] = ($data->full_code);
+            $this->data['meta_desc'] = json_decode($meta->content);
+            http_response_code(200);
+            echo json_encode($this->data);
+        } 
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
+    function cover_letter_guidance()
+    {
+        $meta = $this->page->getMetaContent('cover_letter_guidence');
+        $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+        $this->data['slug'] = $meta->slug;
+        $data = $this->page->getPageContent('cover_letter_guidence');
+        if ($data) 
+        {
+            $this->data['content'] = unserialize($data->code);
+            $this->data['details'] = ($data->full_code);
+            $this->data['meta_desc'] = json_decode($meta->content);
+            http_response_code(200);
+            echo json_encode($this->data);
+        } 
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
+    function cv_builder()
+    {
+        $meta = $this->page->getMetaContent('cv_page');
+        $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+        $this->data['slug'] = $meta->slug;
+        $data = $this->page->getPageContent('cv_page');
+        if ($data) 
+        {
+            $this->data['content'] = unserialize($data->code);
+            $this->data['details'] = ($data->full_code);
+            $this->data['meta_desc'] = json_decode($meta->content);
+            $this->data['sec2sLeft'] = getMultiText('cv-page-left-instructions');
+            http_response_code(200);
+            echo json_encode($this->data);
+        } 
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
+    function cover_letter_builder()
+    {
+        $meta = $this->page->getMetaContent('cover_letter_page');
+        $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+        $this->data['slug'] = $meta->slug;
+        $data = $this->page->getPageContent('cover_letter_page');
+        if ($data) 
+        {
+            $this->data['content'] = unserialize($data->code);
+            $this->data['details'] = ($data->full_code);
+            $this->data['meta_desc'] = json_decode($meta->content);
+            $this->data['sec2sLeft'] = getMultiText('cover-letter-page-left-instructions');
+            http_response_code(200);
+            echo json_encode($this->data);
+        } 
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
+    function recruitment_process()
+    {
+        $meta = $this->page->getMetaContent('recruitement_process');
+        $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+        $this->data['slug'] = $meta->slug;
+        $data = $this->page->getPageContent('recruitement_process');
+        if ($data) 
+        {
+            $this->data['content'] = unserialize($data->code);
+            $this->data['details'] = ($data->full_code);
+            $this->data['meta_desc'] = json_decode($meta->content);
+            $this->data['sec2s'] = getMultiText('recruitement-proccess-sec2');
+            http_response_code(200);
+            echo json_encode($this->data);
+        } 
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
+    function assessment_center()
+    {
+        $meta = $this->page->getMetaContent('assessment_center');
+        $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+        $this->data['slug'] = $meta->slug;
+        $data = $this->page->getPageContent('assessment_center');
+        if ($data) 
+        {
+            $this->data['content'] = unserialize($data->code);
+            $this->data['details'] = ($data->full_code);
+            $this->data['meta_desc'] = json_decode($meta->content);
+            $this->data['sec2s'] = getMultiText('assessment-center-sec2');
+            http_response_code(200);
+            echo json_encode($this->data);
+        } 
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
+    function interview()
+    {
+        $meta = $this->page->getMetaContent('interview');
+        $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+        $this->data['slug'] = $meta->slug;
+        $data = $this->page->getPageContent('interview');
+        if ($data) 
+        {
+            $this->data['content'] = unserialize($data->code);
+            $this->data['details'] = ($data->full_code);
+            $this->data['meta_desc'] = json_decode($meta->content);
+            $this->data['sec2s'] = getMultiText('interview-sec2');
+            http_response_code(200);
+            echo json_encode($this->data);
+        } 
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
     function terms_and_conditions()
     {
         $meta = $this->page->getMetaContent('terms_and_conditions');
