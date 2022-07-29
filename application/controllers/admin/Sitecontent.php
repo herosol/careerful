@@ -130,6 +130,14 @@ class Sitecontent extends Admin_Controller
                 }
             }
 
+            $sec2['title'] = $vals['sec2_title'];
+            $sec2['detail'] = $vals['sec2_detail'];
+            $sec2['order_no'] = $vals['sec2_order_no'];
+            unset($vals['sec2_pics'],$vals['sec2_detail'],$vals['sec2_order_no'],$vals['sec2_title']);
+            $this->master->delete_where('multi_text', array('section'=> 'about-us-faq'));
+            $sec2s = array('order_no' => $sec2['order_no'],'detail' => $sec2['detail'],'title' => $sec2['title']);
+            saveMultiMediaFields($sec2s, 'about-us-faq');
+
             $data = serialize(array_merge($content_row, $vals));
             $this->master->save($this->table_name,array('code' => $data),'ckey', 'about_us');
             setMsg('success', 'Settings updated successfully !');
@@ -272,6 +280,14 @@ class Sitecontent extends Admin_Controller
                     }
                 }
             }
+
+            $sec2['title'] = $vals['sec2_title'];
+            $sec2['detail'] = $vals['sec2_detail'];
+            $sec2['order_no'] = $vals['sec2_order_no'];
+            unset($vals['sec2_pics'],$vals['sec2_detail'],$vals['sec2_order_no'],$vals['sec2_title']);
+            $this->master->delete_where('multi_text', array('section'=> 'for-university-faq'));
+            $sec2s = array('order_no' => $sec2['order_no'],'detail' => $sec2['detail'],'title' => $sec2['title']);
+            saveMultiMediaFields($sec2s, 'for-university-faq');
 
             $data = serialize(array_merge($content_row, $vals));
             $this->master->save($this->table_name,array('code' => $data),'ckey', 'work_with_us');
@@ -746,6 +762,14 @@ class Sitecontent extends Admin_Controller
                 }
             }
 
+            $sec2['title'] = $vals['sec2_title'];
+            $sec2['detail'] = $vals['sec2_detail'];
+            $sec2['order_no'] = $vals['sec2_order_no'];
+            unset($vals['sec2_pics'],$vals['sec2_detail'],$vals['sec2_order_no'],$vals['sec2_title']);
+            $this->master->delete_where('multi_text', array('section'=> 'for-employer-faq'));
+            $sec2s = array('order_no' => $sec2['order_no'],'detail' => $sec2['detail'],'title' => $sec2['title']);
+            saveMultiMediaFields($sec2s, 'for-employer-faq');
+
             $data = serialize(array_merge($content_row, $vals));
             $this->master->save($this->table_name,array('code' => $data),'ckey', 'partner_with_us');
             setMsg('success', 'Settings updated successfully !');
@@ -793,6 +817,13 @@ class Sitecontent extends Admin_Controller
             if(!is_array($content_row))
                 $content_row = array();
 
+            $sec2['title'] = $vals['sec2_title'];
+            $sec2['detail'] = $vals['sec2_detail'];
+            $sec2['order_no'] = $vals['sec2_order_no'];
+            unset($vals['sec2_pics'],$vals['sec2_detail'],$vals['sec2_order_no'],$vals['sec2_title']);
+            $this->master->delete_where('multi_text', array('section'=> 'faqs'));
+            $sec2s = array('order_no' => $sec2['order_no'],'detail' => $sec2['detail'],'title' => $sec2['title']);
+            saveMultiMediaFields($sec2s, 'faqs');
 
             $data = serialize(array_merge($content_row, $vals));
             $this->master->save($this->table_name,array('code' => $data),'ckey', 'faq');
@@ -801,7 +832,82 @@ class Sitecontent extends Admin_Controller
             exit;
         }
 
+
+
         $this->data['row'] = $this->master->getRow($this->table_name, array('ckey' => 'faq'));
+        $this->data['row'] = unserialize($this->data['row']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+
+    public function career_options()
+    {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_career_options';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'career_options'));
+            $content_row = unserialize($content_row->code);
+
+            if(!is_array($content_row))
+                $content_row = array();
+
+            $heading1['title'] = $vals['heading1_title'];
+            $heading1['detail'] = $vals['heading1_detail'];
+            $heading1['order_no'] = $vals['heading1_order_no'];
+            unset($vals['heading1_pics'],$vals['heading1_detail'],$vals['heading1_order_no'],$vals['heading1_title']);
+            $this->master->delete_where('multi_text', array('section'=> 'heading1-content'));
+            $heading1s = array('order_no' => $heading1['order_no'],'detail' => $heading1['detail'],'title' => $heading1['title']);
+            saveMultiMediaFields($heading1s, 'heading1-content');
+
+            $heading2['title'] = $vals['heading2_title'];
+            $heading2['detail'] = $vals['heading2_detail'];
+            $heading2['order_no'] = $vals['heading2_order_no'];
+            unset($vals['heading2_pics'],$vals['heading2_detail'],$vals['heading2_order_no'],$vals['heading2_title']);
+            $this->master->delete_where('multi_text', array('section'=> 'heading2-content'));
+            $heading2s = array('order_no' => $heading2['order_no'],'detail' => $heading2['detail'],'title' => $heading2['title']);
+            saveMultiMediaFields($heading2s, 'heading2-content');
+
+            $heading3['title'] = $vals['heading3_title'];
+            $heading3['detail'] = $vals['heading3_detail'];
+            $heading3['order_no'] = $vals['heading3_order_no'];
+            unset($vals['heading3_pics'],$vals['heading3_detail'],$vals['heading3_order_no'],$vals['heading3_title']);
+            $this->master->delete_where('multi_text', array('section'=> 'heading3-content'));
+            $heading3s = array('order_no' => $heading3['order_no'],'detail' => $heading3['detail'],'title' => $heading3['title']);
+            saveMultiMediaFields($heading3s, 'heading3-content');
+
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name,array('code' => $data),'ckey', 'career_options');
+            setMsg('success', 'Settings updated successfully !');
+            redirect(ADMIN . "/sitecontent/career_options");
+            exit;
+        }
+
+
+
+        $this->data['row'] = $this->master->getRow($this->table_name, array('ckey' => 'career_options'));
+        $this->data['row'] = unserialize($this->data['row']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+
+    public function online_test()
+    {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_online_test';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'online_test'));
+            $content_row = unserialize($content_row->code);
+
+            if(!is_array($content_row))
+                $content_row = array();
+
+
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name,array('code' => $data),'ckey', 'online_test');
+            setMsg('success', 'Settings updated successfully !');
+            redirect(ADMIN . "/sitecontent/online_test");
+            exit;
+        }
+
+        $this->data['row'] = $this->master->getRow($this->table_name, array('ckey' => 'online_test'));
         $this->data['row'] = unserialize($this->data['row']->code);
         $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
     }

@@ -15,6 +15,7 @@ $route['admin/meta-info/delete/(:any)'] = 'admin/Meta_info/delete/$1';
 
 # API ROUTES
 $route['api/home']                      = 'api/pages/home';
+$route['api/site-settings']             = 'api/pages/site_settings';
 $route['api/signin']                    = 'api/pages/signin';
 $route['api/signup']                    = 'api/pages/signup';
 $route['api/about-us']                  = 'api/pages/about_us';
@@ -28,6 +29,9 @@ $route['api/cv-builder']                = 'api/pages/cv_builder';
 $route['api/cover-letter-builder']      = 'api/pages/cover_letter_builder';
 $route['api/assessment-center']         = 'api/pages/assessment_center';
 $route['api/interview']                 = 'api/pages/interview';
+$route['api/online-test']               = 'api/pages/online_test';
+$route['api/online-test-categories']    = 'api/pages/online_test_categories';
+$route['api/test-category-detail']      = 'api/pages/test_category_detail';
 $route['api/terms-and-conditions']      = 'api/pages/terms_and_conditions';
 $route['api/privacy-policy']            = 'api/pages/privacy_policy';
 $route['api/disclaimer']                = 'api/pages/disclaimer';
@@ -49,6 +53,7 @@ $route['api/save-contact-message']      = 'api/pages/save_contact_message';
 $route['api/save-interview-video']      = 'api/pages/save_interview_video';
 $route['api/save-interview']            = 'api/pages/save_interview';
 $route['api/save-job']                  = 'api/pages/save_job';
+$route['api/career-options']            = 'api/pages/career_options';
 
 //AUTH ROUTES
 $route['api/auth/create-account']       = 'api/auth/sign_up';

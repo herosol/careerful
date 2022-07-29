@@ -8,6 +8,12 @@ class Pages extends MY_Controller
         $this->load->model('Pages_model', 'page');
     }
 
+    function site_settings()
+    {
+        http_response_code(200);
+        echo json_encode($this->data);
+    }
+
     function home()
     {
         $meta = $this->page->getMetaContent('home');
@@ -89,7 +95,7 @@ class Pages extends MY_Controller
             $this->data['content'] = unserialize($data->code);
             $this->data['details'] = ($data->full_code);
             $this->data['meta_desc'] = json_decode($meta->content);
-            $this->data['faqs'] = $this->master->getRows('faqs', ['status'=> 1], '', '', 'acs', 'sort_order');
+            $this->data['faqs'] = getMultiText('about-us-faq');
             http_response_code(200);
             echo json_encode($this->data);
         } 
@@ -316,6 +322,28 @@ class Pages extends MY_Controller
         exit;
     }
 
+    function online_test()
+    {
+        $meta = $this->page->getMetaContent('online_test');
+        $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+        $this->data['slug'] = $meta->slug;
+        $data = $this->page->getPageContent('online_test');
+        if ($data) 
+        {
+            $this->data['content'] = unserialize($data->code);
+            $this->data['details'] = ($data->full_code);
+            $this->data['meta_desc'] = json_decode($meta->content);
+            $this->data['tests'] = $this->master->getRows('online_test_categories', ['status'=> 1], '', '', 'desc', 'id');
+            http_response_code(200);
+            echo json_encode($this->data);
+        } 
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
     function terms_and_conditions()
     {
         $meta = $this->page->getMetaContent('terms_and_conditions');
@@ -369,7 +397,31 @@ class Pages extends MY_Controller
             $this->data['content'] = unserialize($data->code);
             $this->data['details'] = ($data->full_code);
             $this->data['meta_desc'] = json_decode($meta->content);
-            $this->data['faqs'] = $this->master->getRows('faqs', ['status'=> 1], '', '', 'acs', 'sort_order');
+            $this->data['faqs'] = getMultiText('faqs');
+            http_response_code(200);
+            echo json_encode($this->data);
+        } 
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
+    function career_options()
+    {
+        $meta = $this->page->getMetaContent('career_options');
+        $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+        $this->data['slug'] = $meta->slug;
+        $data = $this->page->getPageContent('career_options');
+        if ($data) 
+        {
+            $this->data['content'] = unserialize($data->code);
+            $this->data['details'] = ($data->full_code);
+            $this->data['meta_desc'] = json_decode($meta->content);
+            $this->data['heading1'] = getMultiText('heading1-content');
+            $this->data['heading2'] = getMultiText('heading2-content');
+            $this->data['heading3'] = getMultiText('heading3-content');
             http_response_code(200);
             echo json_encode($this->data);
         } 
@@ -420,7 +472,7 @@ class Pages extends MY_Controller
             $this->data['content'] = unserialize($data->code);
             $this->data['details'] = ($data->full_code);
             $this->data['meta_desc'] = json_decode($meta->content);
-            $this->data['faqs'] = $this->master->getRows('faqs', ['status'=> 1], '', '', 'acs', 'sort_order');
+            $this->data['faqs'] = getMultiText('for-university-faq');
             $this->data['companies'] = $this->master->getRows('partner_companies', ['status'=> 1, 'page'=> 'work_with_us'], '', '', 'desc', 'id');
             http_response_code(200);
             echo json_encode($this->data);
@@ -443,7 +495,7 @@ class Pages extends MY_Controller
             $this->data['content'] = unserialize($data->code);
             $this->data['details'] = ($data->full_code);
             $this->data['meta_desc'] = json_decode($meta->content);
-            $this->data['faqs'] = $this->master->getRows('faqs', ['status'=> 1], '', '', 'acs', 'sort_order');
+            $this->data['faqs'] = getMultiText('for-employer-faq');
             $this->data['companies'] = $this->master->getRows('partner_companies', ['status'=> 1, 'page'=> 'partner_with_us'], '', '', 'desc', 'id');
             http_response_code(200);
             echo json_encode($this->data);
@@ -520,6 +572,48 @@ class Pages extends MY_Controller
             $this->data['slug'] = $meta->slug;
             $this->data['meta_desc'] = json_decode($meta->content);
             $this->data['event'] = $this->master->getRow('events', ['id'=> $post['id']]);
+            http_response_code(200);
+            echo json_encode($this->data);
+        }
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
+    function online_test_categories()
+    {
+        if($this->input->post())
+        {
+            $post = $this->input->post();
+            $meta = $this->page->getMetaContent('online_test_detail');
+            $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+            $this->data['slug'] = $meta->slug;
+            $this->data['meta_desc'] = json_decode($meta->content);
+            $this->data['main'] = $this->master->getRow('online_test_categories', ['id'=> $post['catId']]);
+            $this->data['categories'] = $this->master->getRows('online_test_sub_categories', ['cat_id'=> $post['catId'], 'status'=> 1]);
+            http_response_code(200);
+            echo json_encode($this->data);
+        }
+        else
+        {
+            http_response_code(404);
+        }
+        exit;
+    }
+
+    function test_category_detail()
+    {
+        if($this->input->post())
+        {
+            $post = $this->input->post();
+            $meta = $this->page->getMetaContent('test_category_detail');
+            $this->data['page_title'] = $meta->page_name.' - '.$this->data['site_settings']->site_name;
+            $this->data['slug'] = $meta->slug;
+            $this->data['meta_desc'] = json_decode($meta->content);
+            $this->data['category'] = $cat = $this->master->getRow('online_test_sub_categories', ['id'=> $post['catId']]);
+            $this->data['main'] = $this->master->getRow('online_test_categories', ['id'=> $cat->cat_id]);
             http_response_code(200);
             echo json_encode($this->data);
         }

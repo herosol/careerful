@@ -128,6 +128,54 @@
                         <input type="text" name="faq_heading" value="<?= $row['faq_heading'] ?>" class="form-control" required>
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <table class="table table-bordered newTable" id="newTable">
+                            <tr style="background-color: #eee">
+                                <th width="25%">Heading</th>
+                                <th>Detail</th>
+                                <th width="10%">Order#</th>
+                                <th width="4%" class="text-center"><a href="javascript:void(0)" id="addNewRowTbl" class="addNewRowTbl"><i class="fa fa-plus" aria-hidden="true"></i></a></th>
+                            </tr>
+                            <?php $sec2s = getMultiText('for-university-faq'); ?>
+                            <?php if (count($sec2s) > 0) { $sec2s_count = 1; ?>
+                            <?php foreach ($sec2s as $sec2) { ?>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="sec2_title[]" id="sec2_title" value="<?= $sec2->title; ?>" class="form-control" placeholder="Heading">
+                                    </td>
+                                    <td>
+                                        <textarea name="sec2_detail[]" id="sec2_detail" class="form-control" placeholder="Text" rows="4"><?= $sec2->detail; ?></textarea>
+                                    </td>
+                                    <td>
+                                        <input type="number" name="sec2_order_no[]" id="sec2_order_no" value="<?= $sec2->order_no; ?>" class="form-control" placeholder="Order#">
+                                    </td>
+                                    <td class="text-center">
+                                        <?php if ($sec2s_count > 1) { ?>
+                                            <a href="javascript:void(0)" id="delNewRowTbl" class="delNewRowTbl"><i class="fa fa-minus" aria-hidden="true"></i></a>
+                                        <?php } ?>
+                                    </td>
+                                </tr>
+                            <?php $sec2s_count++; ?>
+                            <?php } ?>
+                            <?php }else{ ?>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="sec2_title[]" id="sec2_title" value="" class="form-control" placeholder="Heading">
+                                    </td>
+                                    <td>
+                                        <textarea name="sec2_detail[]" id="sec2_detail" class="form-control" placeholder="Text" rows="4"></textarea>
+                                    </td>
+                                    <td>
+                                        <input type="number" name="sec2_order_no[]" id="sec2_order_no" value="" class="form-control" placeholder="Order#">
+                                    </td>
+                                    <td class="text-center">
+                                    </td>
+                                </tr>  
+                            <?php } ?>                  
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 

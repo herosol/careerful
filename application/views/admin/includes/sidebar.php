@@ -66,6 +66,12 @@
                             <span class="title">Recruitement Process</span>
                         </a>
                     </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'online_test') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/online_test') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Online Test</span>
+                        </a>
+                    </li>
                     <li class=" <?= ($this->uri->segment(3) == 'assessment_center') ? ' active' : '' ?>">
                         <a href="<?= site_url(ADMIN.'/sitecontent/assessment_center') ?>">
                             <i class="entypo-doc-text  "></i>
@@ -178,6 +184,12 @@
                         <a href="<?= site_url(ADMIN.'/sitecontent/faq') ?>">
                             <i class="entypo-doc-text  "></i>
                             <span class="title">FAQs</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'career_options') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/career_options') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Career Options</span>
                         </a>
                     </li>
                     <li class=" <?= ($this->uri->segment(3) == 'testimonials') ? ' active' : '' ?>">
@@ -334,12 +346,7 @@
                     <span class="title">Manage Visa Sponsors</span>
                 </a>
             </li>
-            <li class="opened<?= $this->uri->segment('2') == 'faq' ? ' active' : '' ?>">
-                <a href="<?= site_url(ADMIN.'/faq') ?>">
-                    <i class="fa fa-users"></i>
-                    <span class="title">Manage FAQs</span>
-                </a>
-            </li>
+
             <li class="opened <?= ($this->uri->segment(2) == 'contact') ? 'active' : '' ?>">
                 <a href="<?= site_url(ADMIN.'/contact') ?>">
                     <i class="fa fa-usd"></i>
